@@ -17,7 +17,7 @@ tankstats <- tankstats%>%
 #Changing the order for tier responses for better display in the future
 tankstats$tier <- factor(tankstats$tier , levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
 
-#Tidy up Tank names by removing unessesary frontal designation and removing the _'s
+#Tidy up Tank names by removing unnecessary frontal designation and removing the _'s
 Tank <- tankstats %>%
   pull(tag)
 TankM <-   Tank %>%
@@ -63,3 +63,11 @@ tankstats %>%
 tankstats %>%
   ggplot(mapping=aes(x=`Average Kills`,y=Winrate, color=tier)) +
   geom_jitter()
+
+tankstats %>%
+  ggplot(mapping=aes(x=Winrate,group=type, color=type)) +
+  geom_boxplot()
+
+tankstats %>%
+  ggplot(mapping=aes(x=`Average Damage`,group=type, color=type)) +
+  geom_boxplot()
