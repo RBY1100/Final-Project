@@ -1,9 +1,20 @@
 knitr::opts_chunk$set(error = TRUE)
 library(tidyverse)
-tankstats <- read_csv("~/STA 518/Final-Project/tankdata.csv")
+playerstats <- read_csv("~/STA 518/Final-Project/tankdata.csv")
+otherstats <- read_csv("~/STA 518/Final-Project/otherinfo.csv")
+
+#Join the 2 datasets together using tank_id as the joining variable
+tankstats<- playerstats %>%
+  inner_join(otherstats, by = "tank_id")
+
+#Remove tag variable as tank is a better variable to use
+tankstats <- tankstats %>%
+  select(-tag)
 
 #Changing tank tier to character values instead of numerical
 tankstats$tier <- as.character(tankstats$tier)
+tankstats$Premium <- as.character(tankstats$Premium)
+
 
 #Changing names for type variable
 tankstats <- tankstats%>%
@@ -12,7 +23,26 @@ tankstats <- tankstats%>%
                            "Heavy Tank" = "heavyTank",
                            "Light Tank" = "lightTank",
                            "Tank Destroyer" = "AT-SPG",
-                           "Artillery" = "SPG"))
+                           "Artillery" = "SPG")) %>%
+
+  mutate(Nation = fct_recode(Nation,
+                           "United States" = "us",
+                           "USSR" = "ru",
+                           "Germany" = "ge",
+                           "Poland" = "po",
+                           "China" = "ch",
+                           "Japan" = "ja",
+                           "Japan" = "jp",
+                           "Sweden" = "sw",
+                           "Czech" = "cz",
+                           "Italy" = "it",
+                           "United Kingdom" = "uk",
+                           "France" = "fr")) %>%
+
+  mutate(Premium = fct_recode(Premium,
+                           "No" = "0",
+                           "Yes" = "1",
+                           "Yes" = "11"))
 
 #Changing the order for tier responses for better display in the future
 tankstats$tier <- factor(tankstats$tier , levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
@@ -71,3 +101,12 @@ tankstats %>%
 tankstats %>%
   ggplot(mapping=aes(x=`Average Damage`,group=type, color=type)) +
   geom_boxplot()
+
+tankstats %>%
+  ggplot(mapping=aes(x=win,group=Premium, color=Premium)) +
+  geom_boxplot()
+
+tankstats %>%
+  ggplot(mapping=aes(x=win,group=Nation, color=Nation)) +
+  geom_boxplot()
+
