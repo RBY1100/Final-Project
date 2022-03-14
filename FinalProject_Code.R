@@ -99,3 +99,8 @@ tank_stats %>%
 tank_stats %>%
   ggplot(mapping=aes(x=`Win Rate %`,group=Nation, color=Nation)) +
   geom_boxplot()
+
+#Winrate by Type
+tank_stats %>%
+  ggplot(mapping=aes(x=`Win Rate %`,group=Type, color=Type)) +
+  geom_boxplot()
