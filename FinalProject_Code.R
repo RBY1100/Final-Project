@@ -2,48 +2,60 @@ knitr::opts_chunk$set(error = TRUE)
 library(tidyverse)
 library(rvest)
 library(scales)
+library(purrr)
 
-#Scrape Data from each Server and join them into one dataset
-wot_tableeu <-"https://wot-news.com/stat/server/eu/norm/en/" %>%
-  read_html() %>%
-  html_nodes("table#stat_veh_all4")  %>% 
-  html_table() %>% 
-  .[[1]] %>%
-  rename("Total Played EU" = `Total played`, "Wins EU" = `Win`, "Win% EU" = `Win %`, "Unique Players EU" = `Vehicles amount`)
 
-wot_tableus <-"https://wot-news.com/stat/server/us/norm/en/" %>%
-  read_html() %>%
-  html_nodes("table#stat_veh_all4")  %>% 
-  html_table() %>% 
-  .[[1]] %>%
-  rename("Total Played US" = `Total played`, "Wins US" = `Win`, "Win% US" = `Win %`, "Unique Players US" = `Vehicles amount`)
+#Writes a function to scrape data from the different servers
+wotscrape <- function(x,y){
+  tableda <- x %>%
+    read_html() %>%
+    html_nodes("table#stat_veh_all4")  %>% 
+    html_table() %>% 
+    .[[1]] %>%
+    setNames(c('Name','Tier','Type','Nation',paste('Total Played',y, sep=" "),paste('Wins',y, sep=" "), paste('Win %',y, sep=" "),paste('Unique Players',y, sep=" "), 'Region'))
+  }
 
-wot_tablesea <-"https://wot-news.com/stat/server/sea/norm/en/" %>%
-  read_html() %>%
-  html_nodes("table#stat_veh_all4")  %>% 
-  html_table() %>% 
-  .[[1]] %>%
-  rename("Total Played SEA" = `Total played`, "Wins SEA" = `Win`, "Win% SEA" = `Win %`, "Unique Players SEA" = `Vehicles amount`)
+wotscrape2 <- function(x,y){
+  tableda <- x %>%
+    read_html() %>%
+    html_nodes("table#stat_veh_all4")  %>% 
+    html_table() %>% 
+    .[[1]] %>%
+    mutate(region=y)
+}
 
-wot_tableru <-"https://wot-news.com/stat/server/ru/norm/en/" %>%
-  read_html() %>%
-  html_nodes("table#stat_veh_all4")  %>% 
-  html_table() %>% 
-  .[[1]] %>%
-  rename("Total Played RU" = `Total played`, "Wins RU" = `Win`, "Win% RU" = `Win %`, "Unique Players RU" = `Vehicles amount`)
+wot_tableeu2 <- wotscrape2("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus2 <- wotscrape2("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru2 <- wotscrape2("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea2 <- wotscrape2("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
 
-wot_tablesearu <- inner_join(wot_tablesea, wot_tableru, by = "Name")
-wot_tablesuseu <- inner_join(wot_tableus, wot_tableeu, by = "Name")
-tank_stats <- inner_join(wot_tablesuseu, wot_tablesearu, by = "Name")
+wot_list2 <- list(wot_tableeu2, wot_tableus2, wot_tableru2, wot_tablesea2)
+test <- rbind(wot_list2)
 
-#Read in Premium Information and merge it with main dataset
-other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv")
-tank_stats <- tank_stats %>% inner_join(other_info, by = "Name")
+
+
+
+
+
+
+wot_tableeu <- wotscrape("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus <- wotscrape("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru <- wotscrape("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea <- wotscrape("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
+other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv") %>%
+  select("Name", "Premium")
+
+wot_list <- list(wot_tableeu, wot_tableus, wot_tableru, wot_tablesea, other_info)
+
+#Join the datasets together
+
+tank_stats <- wot_list %>% reduce(inner_join, by="Name")
 
 #Remove Unnessesary Variables and Rename Remaining ones
 tank_stats <- tank_stats %>%
-  select(-Tier.y.x, -Tier.x.y, -Tier.y.y, -Nation.y.x, -Nation.x.y, -Nation.y.y, -Type.y.x, -Type.x.y, -Type.y.y, -`Total Played SEA.y`) %>%
-  rename("Tier" = Tier.x.x, "Nation" = Nation.x.x, "Type" = Type.x.x, "Total Played SEA" = `Total Played SEA.x`)
+  select(-ends_with(".y"),-ends_with("x.x")) %>%
+  rename("Tier"=`Tier.x`, "Nation"=`Nation.x`, "Type"=`Type.x`)
+
 
 #Get Values for the total World of Tanks player base by adding up all the servers
 tank_stats <- tank_stats %>%
@@ -104,3 +116,10 @@ tank_stats %>%
 tank_stats %>%
   ggplot(mapping=aes(x=`Win Rate %`,group=Type, color=Type)) +
   geom_boxplot()
+
+#Winrate by Region
+tank_stats %>%
+  ggplot(mapping=aes(x=`Total Played EU`)) +
+  geom_boxplot()
+
+
