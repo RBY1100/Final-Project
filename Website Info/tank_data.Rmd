@@ -1,0 +1,24 @@
+---
+title: "Data Analysis Project"
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+## About World of Tanks
+![](games-like-world-of-tanks.jpg)
+World of tanks was created 
+
+
+
+##Questions that will be answered
+
+
+
+

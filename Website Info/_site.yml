@@ -1,0 +1,13 @@
+name: "World of Tanks Data Analysis"
+title: "STA 518 Project"
+description: |
+output_dir: "_site"
+navbar:
+  right:
+    - text: "Intro"
+      href: index.html
+    - text: "Region Data"
+      href: region_data.html
+    - text: "Tank Data"
+      href: region_data.html
+output: distill::distill_article

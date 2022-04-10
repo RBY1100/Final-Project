@@ -1,0 +1,17 @@
+---
+title: "Data Analysis Project"
+description: |
+  This project will scrape data from World of Tanks to analyze trends in different tanks statistics and different regions.
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+## World of Tanks
+6
