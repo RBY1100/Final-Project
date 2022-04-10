@@ -2093,16 +2093,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="tank_data_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
 </div>
-<h4 id="mean-win-rate-by-tank-type">Mean Win Rate by Tank Type</h4>
+<h3 id="mean-win-rate-by-tank-type">Mean Win Rate by Tank Type</h3>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 5 x 2
-  Type           `Mean Win Rate by Tank Type`
-  &lt;fct&gt;                                 &lt;dbl&gt;
-1 Heavy Tank                             49.3
-2 Light Tank                             49.2
-3 Medium Tank                            49.3
-4 Artillery                              49.0
-5 Tank Destroyer                         49.1</code></pre>
+<pre><code># A tibble: 5 x 3
+  Type           `Mean Win Rate by Tank Type` `Total Number of Type`
+  &lt;fct&gt;                                 &lt;dbl&gt;                  &lt;int&gt;
+1 Heavy Tank                             49.3                    161
+2 Light Tank                             49.2                    146
+3 Medium Tank                            49.3                    207
+4 Artillery                              49.0                     52
+5 Tank Destroyer                         49.1                    130</code></pre>
 </div>
 <h3 id="anova-test-on-tank-type">ANOVA Test on Tank Type</h3>
 <div class="layout-chunk" data-layout="l-body">
@@ -2111,7 +2111,91 @@ Type          4      8   2.114   0.415  0.798
 Residuals   691   3518   5.091               </code></pre>
 </div>
 <p>Simply looking at the comparative boxplots and observing the mean win rate for each class, it appears fairly apparent that Wargaming has balanced their tank classes fairly well. Performing an ANOVA test on the variable Type give us a p-value well above any threshold we would use to conclude Type has any noticeable effect on win rate.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="tank-tier">Tank Tier</h2>
+<p>World of Tanks uses a matchmaker system to make for balanced teams every match. Based on this, they have a built in tier system with each tank attached to a certain tier based on how powerful that tank is. In this case, tier 1 includes the weakest tanks in the game while tier 10 includes the most powerful tanks. World of Tanks has a built in matchmaker that will make sure there are an equal number of tank from each tier on each team. Different tiers can be matched up with tank +/- 2 tier from their own. So for example, a tier 5 tank oculd be matched with tier 3, 4, 5, 6, and 7 tanks although there will always be an equal number of tier 5’s on each team. Are there any differences between the winrates of different tiers?</p>
+<h3 id="boxplot-of-tank-tier-by-win-rate">Boxplot of Tank Tier by Win Rate</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="tank_data_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<h3 id="mean-win-rate-by-tank-tier">Mean Win Rate by Tank Tier</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 10 x 3
+   Tier  `Mean Win Rate by Tank Tier` `Total Number of Tier`
+   &lt;fct&gt;                        &lt;dbl&gt;                  &lt;int&gt;
+ 1 1                             48.1                     12
+ 2 2                             49.1                     51
+ 3 3                             49.3                     56
+ 4 4                             49.6                     53
+ 5 5                             49.7                     67
+ 6 6                             49.5                     79
+ 7 7                             49.5                     74
+ 8 8                             48.7                    156
+ 9 9                             49.0                     69
+10 10                            49.4                     79</code></pre>
+</div>
+<h3 id="anova-test-on-tank-tier">ANOVA Test on Tank Tier</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+Tier          9     95  10.541   2.107 0.0269 *
+Residuals   686   3432   5.002                 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>Looking at the boxplot, the different tiers appear to be fairly even in winrate with the exception of tier 1 which is significantly lower overall. Tier 8 also appears somewhat smaller but less so than tier 1. It is important to note that the tiers with the 2 lowest winrates have the most and least amount of tanks in those tier respectably. The mean winrate for each tier also indicates a similar trend. Performing an ANOVA test on the variable Type give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on a tanks win rate.</p>
+<h2 id="tank-nation">Tank Nation</h2>
+<p>World of Tanks includes a variety of different tanks from different nations. Each nation tends to have a somewhat different play style but they are suppose to be generally balanced with all nations said to be just as powerful as the others. There are certainly claims that some nations are more powerful than others. Particularly, that Russian tanks are overall better due to a large portion of the player base being from Russia. There are also claims that because German tanks were some of the first tanks released in the game, they are generally not as powerful as the newer tanks. However, does the data support any of these claims.</p>
+<h3 id="boxplot-of-tank-nation-by-win-rate">Boxplot of Tank Nation by Win Rate</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="tank_data_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<h3 id="mean-win-rate-by-tank-nation">Mean Win Rate by Tank Nation</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 11 x 3
+   Nation         `Mean Win Rate by Tank Nati… `Total Number of Natio…
+   &lt;fct&gt;                                 &lt;dbl&gt;                   &lt;int&gt;
+ 1 China                                  49.5                      45
+ 2 Czechoslovakia                         49.5                      18
+ 3 France                                 49.3                      77
+ 4 Germany                                49.5                     127
+ 5 Italy                                  49.5                      18
+ 6 Japan                                  48.7                      26
+ 7 Poland                                 49.1                      21
+ 8 Sweden                                 48.3                      31
+ 9 United Kingdom                         49.5                      85
+10 United States                          49.1                     108
+11 USSR                                   49.0                     140</code></pre>
+</div>
+<h3 id="anova-test-on-tank-nation">ANOVA Test on Tank Nation</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)
+Nation       10     67   6.696   1.326  0.212
+Residuals   685   3459   5.050               </code></pre>
+</div>
+<p>Looking at the boxplots, the different nations appear to be fairly even in winrate with the exception of Swedish tanks and Japanese tanks which are noticeably lower overall. The means appear to support these observations as well. Performing an ANOVA test on the variable Type give us a p-value that appears to indicate that a tanks nation doesn’t seem to have a statistically significant effect on a tanks win rate. This means that while Sweden and Japan do appear to have some differences, they aren’t enough to be seen a statistically significant. Interestingly enough, it appears that while players say Russian tanks are overly powerful, the opposite appears to be true with Russian tanks mean win rate being the 3rd lowest out of all the nations. While at the same time, German tanks tend to have a relatively high mean win rate overall.</p>
+<h2 id="premium-tanks">Premium Tanks</h2>
+<p>Finally, one way that Wargaming works to monetise their game is to sell unique tanks for real world currency. These tanks are wholly unique just like alll other tanks and many times support very unique or niche play styles. However, over the years, there have been claims that Wargaming intentionally makes these tanks more powerful than the normal tanks in order to incentivise their purchases. These claims of being “pay-to-win” have been prevalent for a long time. However, does the data appear to support these claims.</p>
+<h3 id="boxplot-of-premium-status-by-win-rate">Boxplot of Premium Status by Win Rate</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="tank_data_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<h3 id="mean-win-rate-by-premium-status">Mean Win Rate by Premium Status</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 2 x 3
+  Premium `Mean Win Rate by Premium S… `Total Number of Premium/Non-P…
+  &lt;fct&gt;                          &lt;dbl&gt;                           &lt;int&gt;
+1 No                              48.6                             451
+2 Yes                             50.4                             245</code></pre>
+</div>
+<h3 id="anova-test-on-premium-status">ANOVA Test on Premium Status</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+Premium       1  524.1   524.1   121.1 &lt;2e-16 ***
+Residuals   694 3002.3     4.3                   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>Looking at the boxplots, there does appear to be a significant difference in the win rate between premium and non-premium tanks. Looking at the means, premium tanks appear to have an almost 2% high winrate than non-premium tanks. Running an ANOVA test on the premium status of the tanks, the p-value is very low indicating that premium status does certianly seem to effect the win rate of a tank.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

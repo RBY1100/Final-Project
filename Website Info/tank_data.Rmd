@@ -89,7 +89,7 @@ tank_statstot %>%
 ```{r}
 tank_statstot %>%
   group_by(Type) %>%
-  summarise("Mean Win Rate by Tank Type" = mean(`Win Rate %`))
+  summarise("Mean Win Rate by Tank Type" = mean(`Win Rate %`), "Total Number of Type" = length(`Win Rate %`))
 ```
 
 ### ANOVA Test on Tank Type
@@ -99,4 +99,80 @@ aov(`Win Rate %` ~ Type, data = tank_statstot) %>%
 ```
 Simply looking at the comparative boxplots and observing the mean win rate for each class, it appears fairly apparent that Wargaming has balanced their tank classes fairly well. Performing an ANOVA test on the variable Type give us a p-value well above any threshold we would use to conclude Type has any noticeable effect on win rate. 
 
+## Tank Tier 
 
+World of Tanks uses a matchmaker system to make for balanced teams every match. Based on this, they have a built in tier system with each tank attached to a certain tier based on how powerful that tank is. In this case, tier 1 includes the weakest tanks in the game while tier 10 includes the most powerful tanks. World of Tanks has a built in matchmaker that will make sure there are an equal number of tank from each tier on each team. Different tiers can be matched up with tank +/- 2 tier from their own. So for example, a tier 5 tank oculd be matched with tier 3, 4, 5, 6, and 7 tanks although there will always be an equal number of tier 5's on each team. Are there any differences between the winrates of different tiers? 
+
+### Boxplot of Tank Tier by Win Rate
+```{r}
+tank_statstot %>%
+  ggplot(mapping=aes(x=`Win Rate %`,group=Tier, color=Tier)) +
+  geom_boxplot()
+```
+
+### Mean Win Rate by Tank Tier
+```{r}
+tank_statstot %>%
+  group_by(Tier) %>%
+  summarise("Mean Win Rate by Tank Tier" = mean(`Win Rate %`), "Total Number of Tier" = length(`Win Rate %`))
+```
+
+### ANOVA Test on Tank Tier
+```{r}
+aov(`Win Rate %` ~ Tier, data = tank_statstot) %>%
+  summary()
+```
+
+Looking at the boxplot, the different tiers appear to be fairly even in winrate with the exception of tier 1 which is significantly lower overall. Tier 8 also appears somewhat smaller but less so than tier 1. It is important to note that the tiers with the 2 lowest winrates have the most and least amount of tanks in those tier respectably. The mean winrate for each tier also indicates a similar trend. Performing an ANOVA test on the variable Type give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on a tanks win rate.
+
+## Tank Nation 
+
+World of Tanks includes a variety of different tanks from different nations. Each nation tends to have a somewhat different play style but they are suppose to be generally balanced with all nations said to be just as powerful as the others. There are certainly claims that some nations are more powerful than others. Particularly, that Russian tanks are overall better due to a large portion of the player base being from Russia. There are also claims that because German tanks were some of the first tanks released in the game, they are generally not as powerful as the newer tanks. However, does the data support any of these claims.
+
+### Boxplot of Tank Nation by Win Rate
+```{r}
+tank_statstot %>%
+  ggplot(mapping=aes(x=`Win Rate %`,group=Nation, color=Nation)) +
+  geom_boxplot()
+```
+
+### Mean Win Rate by Tank Nation
+```{r}
+tank_statstot %>%
+  group_by(Nation) %>%
+  summarise("Mean Win Rate by Tank Nation" = mean(`Win Rate %`), "Total Number of Nation" = length(`Win Rate %`))
+```
+
+### ANOVA Test on Tank Nation
+```{r}
+aov(`Win Rate %` ~ Nation, data = tank_statstot) %>%
+  summary()
+```
+
+Looking at the boxplots, the different nations appear to be fairly even in winrate with the exception of Swedish tanks and Japanese tanks which are noticeably lower overall. It also appears that Germany has the 3 best tanks in the game according to win rate. The means appear to support these observations as well. Performing an ANOVA test on the variable Type give us a p-value that appears to indicate that a tanks nation doesn't seem to have a statistically significant effect on a tanks win rate. This means that while Sweden and Japan do appear to have some differences, they aren't enough to be seen a statistically significant. Interestingly enough, it appears that while players say Russian tanks are overly powerful, the opposite appears to be true with Russian tanks mean win rate being the 3rd lowest out of all the nations. While at the same time, German tanks tend to have a relatively high mean win rate overall.
+
+## Premium Tanks 
+
+Finally, one way that Wargaming works to monetize their game is to sell unique tanks for real world currency. These tanks are wholly unique just like all other tanks and many times support very unique or niche play styles. However, over the years, there have been claims that Wargaming intentionally makes these tanks more powerful than the normal tanks in order to incentivize their purchases. These claims of being "pay-to-win" have been prevalent for a long time. However, does the data appear to support these claims.
+
+### Boxplot of Premium Status by Win Rate
+```{r}
+tank_statstot %>%
+  ggplot(mapping=aes(x=`Win Rate %`,group=Premium, color=Premium)) +
+  geom_boxplot()
+```
+
+### Mean Win Rate by Premium Status
+```{r}
+tank_statstot %>%
+  group_by(Premium) %>%
+  summarise("Mean Win Rate by Premium Status" = mean(`Win Rate %`), "Total Number of Premium/Non-Premiums" = length(`Win Rate %`))
+```
+
+### ANOVA Test on Premium Status
+```{r}
+aov(`Win Rate %` ~ Premium, data = tank_statstot) %>%
+  summary()
+```
+
+Looking at the boxplots, there does appear to be a significant difference in the win rate between premium and non-premium tanks. Looking at the means, premium tanks appear to have an almost 2% high winrate than non-premium tanks. Running an ANOVA test on the premium status of the tanks, the p-value is very low indicating that premium status does certainly seem to effect the win rate of a tank.

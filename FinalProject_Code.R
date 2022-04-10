@@ -100,7 +100,7 @@ tank_statstot %>%
 
 tank_statstot %>%
   group_by(Tier) %>%
-  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`), "Total Number of Tier" = length(`Win Rate %`))
 
 aov(`Win Rate %` ~ Tier, data = tank_statstot) %>%
   summary()
@@ -112,7 +112,7 @@ tank_statstot %>%
 
 tank_statstot %>%
   group_by(Premium) %>%
-  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`), "Total Number of Premium" = length(`Win Rate %`))
 
 aov(`Win Rate %` ~ Premium, data = tank_statstot) %>%
   summary()
@@ -124,7 +124,7 @@ tank_statstot %>%
 
 tank_statstot %>%
   group_by(Nation) %>%
-  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`), "Total Number of Nation" = length(`Win Rate %`))
 
 aov(`Win Rate %` ~ Nation, data = tank_statstot) %>%
   summary()
@@ -136,7 +136,7 @@ tank_statstot %>%
 
 tank_statstot %>%
   group_by(Type) %>%
-  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`), "Total Number of Type" = length(`Win Rate %`))
 
 aov(`Win Rate %` ~ Type, data = tank_statstot) %>%
   summary()
