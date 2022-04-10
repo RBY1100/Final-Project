@@ -1,7 +1,5 @@
 ---
-title: "Data Analysis Project"
-description: |
-  This project will scrape data from World of Tanks to analyze trends in different tanks statistics and different regions.
+title: "Region Data"
 site: distill::distill_website
 ---
 
@@ -13,5 +11,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
-## World of Tanks
-6
+## World of Tanks Different Regions
+
+World of Tanks is a global game and thus runs on 4 major distinct servers. The U

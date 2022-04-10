@@ -9,5 +9,5 @@ navbar:
     - text: "Region Data"
       href: region_data.html
     - text: "Tank Data"
-      href: region_data.html
+      href: tank_data.html
 output: distill::distill_article

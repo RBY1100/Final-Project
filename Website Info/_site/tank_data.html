@@ -87,26 +87,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>STA 518 Project: Data Analysis Project</title>
+  <title>STA 518 Project: Tank Win Rates Based on Varying Attributes</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="STA 518 Project: Data Analysis Project"/>
+  <meta property="og:title" content="STA 518 Project: Tank Win Rates Based on Varying Attributes"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="STA 518 Project"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="STA 518 Project: Data Analysis Project"/>
+  <meta property="twitter:title" content="STA 518 Project: Tank Win Rates Based on Varying Attributes"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site"]}},"value":[{"type":"character","attributes":{},"value":["Data Analysis Project"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site"]}},"value":[{"type":"character","attributes":{},"value":["Tank Win Rates Based on Varying Attributes"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2054,7 +2054,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Analysis Project","authors":[]}
+{"title":"Tank Win Rates Based on Varying Attributes","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2067,7 +2067,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="nav-right">
 <a href="index.html">Intro</a>
 <a href="region_data.html">Region Data</a>
-<a href="region_data.html">Tank Data</a>
+<a href="tank_data.html">Tank Data</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2077,7 +2077,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Data Analysis Project</h1>
+<h1>Tank Win Rates Based on Varying Attributes</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2085,10 +2085,33 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
-<h2 id="about-world-of-tanks">About World of Tanks</h2>
-<p><img src="games-like-world-of-tanks.jpg" /> World of tanks was created</p>
-<p>##Questions that will be answered</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="the-tanks-in-world-of-tanks">The Tanks in World of Tanks</h2>
+<p>World of tanks contains more than 600 different tanks. All of them have different characteristics. This project will use a few characteristics such as Type, Tier, Nation, and its premium status to see if they have any major effect on winrate.</p>
+<h3 id="tank-type">Tank Type</h3>
+<p>World of Tanks separates their tanks into 5 different categories; light tanks, medium tanks, heavy tanks, tank destroyers, and artillery. In general, these tanks all fit into a different niche. Light tanks are the scouts for the team, running ahead to spot enemy tanks for their teamate to shoot at. Medium tanks are you’re jack-of-all trades class, being decent in most aspects but not spectacular. Heavy utilize their heavy armor to take and hold the most important parts of the map. Tank destroyers sit behind using their powerful guns to snipe enemies from a distance. Artillery are the support class, specializing in removing dug in opponents from an extreme range. Looking at the data, are any of these niches appear to be more influential than others?</p>
+<h3 id="boxplot-of-tank-type-by-win-rate">Boxplot of Tank Type by Win Rate</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="tank_data_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
+<h4 id="mean-win-rate-by-tank-type">Mean Win Rate by Tank Type</h4>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 5 x 2
+  Type           `Mean Win Rate by Tank Type`
+  &lt;fct&gt;                                 &lt;dbl&gt;
+1 Heavy Tank                             49.3
+2 Light Tank                             49.2
+3 Medium Tank                            49.3
+4 Artillery                              49.0
+5 Tank Destroyer                         49.1</code></pre>
+</div>
+<h3 id="anova-test-on-tank-type">ANOVA Test on Tank Type</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)
+Type          4      8   2.114   0.415  0.798
+Residuals   691   3518   5.091               </code></pre>
+</div>
+<p>Simply looking at the comparative boxplots and observing the mean win rate for each class, it appears fairly apparent that Wargaming has balanced their tank classes fairly well. Performing an ANOVA test on the variable Type give us a p-value well above any threshold we would use to conclude Type has any noticeable effect on win rate.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

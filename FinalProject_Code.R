@@ -3,7 +3,7 @@ library(tidyverse)
 library(rvest)
 library(scales)
 library(purrr)
-
+library(stats)
 
 #Writes a function to scrape data from the different servers
 wotscrapewr <- function(x,y){
@@ -98,20 +98,46 @@ tank_statstot %>%
   ggplot(mapping=aes(x=`Win Rate %`, group=Tier, color=Tier)) +
   geom_boxplot()
 
+tank_statstot %>%
+  group_by(Tier) %>%
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
+
+aov(`Win Rate %` ~ Tier, data = tank_statstot) %>%
+  summary()
+
 #Winrate by Premium
 tank_statstot %>%
   ggplot(mapping=aes(x=`Win Rate %`,group=Premium, color=Premium)) +
   geom_boxplot()
+
+tank_statstot %>%
+  group_by(Premium) %>%
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
+
+aov(`Win Rate %` ~ Premium, data = tank_statstot) %>%
+  summary()
 
 #Winrate by Nation
 tank_statstot %>%
   ggplot(mapping=aes(x=`Win Rate %`,group=Nation, color=Nation)) +
   geom_boxplot()
 
+tank_statstot %>%
+  group_by(Nation) %>%
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
+
+aov(`Win Rate %` ~ Nation, data = tank_statstot) %>%
+  summary()
+
 #Winrate by Type
 tank_statstot %>%
   ggplot(mapping=aes(x=`Win Rate %`,group=Type, color=Type)) +
-  geom_boxplot()
+  geom_boxplot() 
 
+tank_statstot %>%
+  group_by(Type) %>%
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`))
 
+aov(`Win Rate %` ~ Type, data = tank_statstot) %>%
+  summary()
 

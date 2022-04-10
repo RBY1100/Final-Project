@@ -1,24 +1,102 @@
 ---
-title: "Data Analysis Project"
+title: "Tank Win Rates Based on Varying Attributes"
 site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(rvest)
+library(scales)
+library(purrr)
+
+wotscrapewr <- function(x,y){
+  tableda <- x %>%
+    read_html() %>%
+    html_nodes("table#stat_veh_all4")  %>% 
+    html_table() %>% 
+    .[[1]] %>%
+    setNames(c('Name','Tier','Type','Nation',paste('Total Played',y, sep=" "),paste('Wins',y, sep=" "), paste('Win %',y, sep=" "),paste('Unique Players',y, sep=" "), 'Region'))
+}
+wot_tableeu <- wotscrapewr("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus <- wotscrapewr("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru <- wotscrapewr("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea <- wotscrapewr("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
+other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv") %>%
+  select("Name", "Premium")
+
+wot_list <- list(wot_tableeu, wot_tableus, wot_tableru, wot_tablesea, other_info)
+tank_statstot <- wot_list %>% reduce(inner_join, by="Name")
+
+tank_statstot <- tank_statstot %>%
+  select(-ends_with(".y"),-ends_with("x.x")) %>%
+  rename("Tier"=`Tier.x`, "Nation"=`Nation.x`, "Type"=`Type.x`)
+
+
+#Get Values for the total World of Tanks player base by adding up all the servers
+tank_statstot <- tank_statstot %>%
+  mutate("Total Played" = `Total Played US` + `Total Played EU` + `Total Played SEA` + `Total Played RU`, "Total Wins" = `Wins US` + `Wins EU` + `Wins SEA` + `Wins RU`, "Total Unique Players" = 
+           `Unique Players US` + `Unique Players EU` + `Unique Players SEA` + `Unique Players RU`, "Win Rate %" = (`Total Wins`/`Total Played`)*100)
+
+#Filter out Repeat Values and Low Observation Values (tanks in beta testing)
+tank_statstot <- tank_statstot[!duplicated(tank_statstot$Name),] %>%
+  filter(`Total Played` > 6000)
+
+#Convert "Tier" and "Premium" into a character values and order them 
+tank_statstot$`Tier` <- as.character(tank_statstot$`Tier`) %>%
+  factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+tank_statstot$`Premium` <- as.character(tank_statstot$`Premium`)
+
+#Rename Premium
+tank_statstot <- tank_statstot%>%
+  mutate(Type = fct_recode(Type,
+                           "Medium Tank" = "Medium Tanks",
+                           "Heavy Tank" = "Heavy Tanks",
+                           "Light Tank" = "Light Tanks",
+                           "Tank Destroyer" = "TD",
+                           "Artillery" = "SPG")) %>%
+  
+  mutate(Nation = fct_recode(Nation,
+                             "United States" = "Usa",
+                             "USSR" = "Ussr",
+                             "United Kingdom" = "UK")) %>%
+  
+  mutate(Premium = fct_recode(Premium,
+                              "No" = "0",
+                              "Yes" = "1"))
 
 # Learn more about creating websites with Distill at:
 # https://rstudio.github.io/distill/website.html
 
 ```
 
-## About World of Tanks
-![](games-like-world-of-tanks.jpg)
-World of tanks was created 
+## The Tanks in World of Tanks
 
+World of tanks contains more than 600 different tanks. All of them have different characteristics. This project will use a few characteristics such as Type, Tier, Nation, and its premium status to see if they have any major effect on winrate.
 
+### Tank Type
 
-##Questions that will be answered
+World of Tanks separates their tanks into 5 different categories; light tanks, medium tanks, heavy tanks, tank destroyers, and artillery. In general, these tanks all fit into a different niche. Light tanks are the scouts for the team, running ahead to spot enemy tanks for their teamate to shoot at. Medium tanks are you're jack-of-all trades class, being decent in most aspects but not spectacular. Heavy utilize their heavy armor to take and hold the most important parts of the map. Tank destroyers sit behind using their powerful guns to snipe enemies from a distance. Artillery are the support class, specializing in removing dug in opponents from an extreme range. Looking at the data, are any of these niches appear to be more influential than others?
 
+### Boxplot of Tank Type by Win Rate
+```{r}
+tank_statstot %>%
+  ggplot(mapping=aes(x=`Win Rate %`,group=Type, color=Type)) +
+  geom_boxplot()
+```
 
+### Mean Win Rate by Tank Type
+```{r}
+tank_statstot %>%
+  group_by(Type) %>%
+  summarise("Mean Win Rate by Tank Type" = mean(`Win Rate %`))
+```
+
+### ANOVA Test on Tank Type
+```{r}
+aov(`Win Rate %` ~ Type, data = tank_statstot) %>%
+  summary()
+```
+Simply looking at the comparative boxplots and observing the mean win rate for each class, it appears fairly apparent that Wargaming has balanced their tank classes fairly well. Performing an ANOVA test on the variable Type give us a p-value well above any threshold we would use to conclude Type has any noticeable effect on win rate. 
 
 
