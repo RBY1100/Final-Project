@@ -78,6 +78,27 @@ World of tanks contains more than 600 different tanks. All of them have differen
 
 World of Tanks separates their tanks into 5 different categories; light tanks, medium tanks, heavy tanks, tank destroyers, and artillery. In general, these tanks all fit into a different niche. Light tanks are the scouts for the team, running ahead to spot enemy tanks for their teamate to shoot at. Medium tanks are you're jack-of-all trades class, being decent in most aspects but not spectacular. Heavy utilize their heavy armor to take and hold the most important parts of the map. Tank destroyers sit behind using their powerful guns to snipe enemies from a distance. Artillery are the support class, specializing in removing dug in opponents from an extreme range. Looking at the data, are any of these niches appear to be more influential than others?
 
+### Current Percentage Breakdown for Tank Type
+
+```{r}
+tank_statstot %>%
+  group_by(Type) %>%
+  summarise(`Type Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Type Played` / sum(`Type Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Type)%>%
+  ggplot(aes(x = "", y = Percent, fill = Type)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+At the moment, the player base appears to be preferring playing heavy tanks, medium tanks, and tank destroyers the most. This does make sense considering light tanks are somewhat difficult to play and artillery is generally seen as boring to play by much of the player base.
+
 ### Boxplot of Tank Type by Win Rate
 ```{r}
 tank_statstot %>%
@@ -103,6 +124,27 @@ Simply looking at the comparative boxplots and observing the mean win rate for e
 
 World of Tanks uses a matchmaker system to make for balanced teams every match. Based on this, they have a built in tier system with each tank attached to a certain tier based on how powerful that tank is. In this case, tier 1 includes the weakest tanks in the game while tier 10 includes the most powerful tanks. World of Tanks has a built in matchmaker that will make sure there are an equal number of tank from each tier on each team. Different tiers can be matched up with tank +/- 2 tier from their own. So for example, a tier 5 tank oculd be matched with tier 3, 4, 5, 6, and 7 tanks although there will always be an equal number of tier 5's on each team. Are there any differences between the winrates of different tiers? 
 
+### Current Percentage Breakdown for Tank Tier
+
+```{r}
+tank_statstot %>%
+  group_by(Tier) %>%
+  summarise(`Tier Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Tier Played` / sum(`Tier Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Tier)%>%
+  ggplot(aes(x = "", y = Percent, fill = Tier)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+It appears that about 2/3 games played are at tier 8, 9 and 10. This makes sense as they require the most work to get to and thus take the most time to get the XP needed to move up to the next tier. On top of this, many players enjoy playing at tier 10 because they are the most powerful they can get. Tier 8 makes sense because it is the tier of the most popular premium tanks, tier 8 also has the most tanks out of any tier in the game.
+
 ### Boxplot of Tank Tier by Win Rate
 ```{r}
 tank_statstot %>%
@@ -125,9 +167,30 @@ aov(`Win Rate %` ~ Tier, data = tank_statstot) %>%
 
 Looking at the boxplot, the different tiers appear to be fairly even in winrate with the exception of tier 1 which is significantly lower overall. Tier 8 also appears somewhat smaller but less so than tier 1. It is important to note that the tiers with the 2 lowest winrates have the most and least amount of tanks in those tier respectably. The mean winrate for each tier also indicates a similar trend. Performing an ANOVA test on the variable Type give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on a tanks win rate.
 
-## Tank Nation 
+## Tank Nationality 
 
 World of Tanks includes a variety of different tanks from different nations. Each nation tends to have a somewhat different play style but they are suppose to be generally balanced with all nations said to be just as powerful as the others. There are certainly claims that some nations are more powerful than others. Particularly, that Russian tanks are overall better due to a large portion of the player base being from Russia. There are also claims that because German tanks were some of the first tanks released in the game, they are generally not as powerful as the newer tanks. However, does the data support any of these claims.
+
+### Current Percentage Breakdown for Tank Nationality
+
+```{r}
+tank_statstot %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+It appears that the majority of games played are from the US, USSR/Russia, Germany or France. This does make sense for two reasons. To start, these nations have the most tanks in the game so they have more options in general for people to choose and players will naturally spend more time playing nations with more tanks. Second, these nations all have a server that can claim a nation as their own. The US server has US tanks, RU server has USSR/Russian tanks and so on. 
 
 ### Boxplot of Tank Nation by Win Rate
 ```{r}
@@ -154,6 +217,27 @@ Looking at the boxplots, the different nations appear to be fairly even in winra
 ## Premium Tanks 
 
 Finally, one way that Wargaming works to monetize their game is to sell unique tanks for real world currency. These tanks are wholly unique just like all other tanks and many times support very unique or niche play styles. However, over the years, there have been claims that Wargaming intentionally makes these tanks more powerful than the normal tanks in order to incentivize their purchases. These claims of being "pay-to-win" have been prevalent for a long time. However, does the data appear to support these claims.
+
+### Current Percentage Breakdown for Premium Tank Games Played
+
+```{r}
+tank_statstot %>%
+  group_by(Premium) %>%
+  summarise(`Premium Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Premium Played` / sum(`Premium Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Premium)%>%
+  ggplot(aes(x = "", y = Percent, fill = Premium)) +
+  geom_col(color="black") +
+  geom_text(aes(label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+The data shows that almost 1/3 of all games played are played with a premium tank. This is actually rather high and indicates that a large portion of the game is now played with tanks that cost real world currency. This could be due to a gameplay advantage or players might want to make sure they were getting their moneys worth out of purchasing a tank. 
 
 ### Boxplot of Premium Status by Win Rate
 ```{r}

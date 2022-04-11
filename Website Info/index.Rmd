@@ -1,5 +1,6 @@
 ---
 title: "Data Analysis Project"
+description: Robert Bilyk
 site: distill::distill_website
 ---
 
@@ -42,7 +43,7 @@ In World of Tanks, vehicles are modeled to closely resemble their counterparts i
 
 ### About the Data
 
-This data was scraped from the Wot-News website. This website pulls data from Wargamings servers in order to provide data on server activity and tanks statistics. This data can all be viewed on the Wot News website at: https://wot-news.com/.
+This data was scraped from the Wot-News website. This website pulls data from Wargamings servers in order to provide data on server activity and tanks statistics. This is updated daily and this project will take data from the last 60 days from the current day. This data can all be viewed on the Wot News website at: https://wot-news.com/.
 Some data that wasn't included on Wot News such as whether a tank was a premium tank or not was manually added.
 
 

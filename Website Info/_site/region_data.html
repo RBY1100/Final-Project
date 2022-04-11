@@ -87,26 +87,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>STA 518 Project: Region Data</title>
+  <title>STA 518 Project: World of Tanks Data by Region</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="STA 518 Project: Region Data"/>
+  <meta property="og:title" content="STA 518 Project: World of Tanks Data by Region"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="STA 518 Project"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="STA 518 Project: Region Data"/>
+  <meta property="twitter:title" content="STA 518 Project: World of Tanks Data by Region"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site"]}},"value":[{"type":"character","attributes":{},"value":["Region Data"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site"]}},"value":[{"type":"character","attributes":{},"value":["World of Tanks Data by Region"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2054,7 +2054,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Region Data","authors":[]}
+{"title":"World of Tanks Data by Region","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2077,7 +2077,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Region Data</h1>
+<h1>World of Tanks Data by Region</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2086,8 +2086,73 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="world-of-tanks-different-regions">World of Tanks Different Regions</h2>
-<p>World of Tanks is a global game and thus runs on 4 major distinct servers. The U</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>World of Tanks is a global game and thus runs on 4 major distinct servers. The US server encompasses the North American region, the EU server covers most of the EU region, the RU servers covers primarily Russia but also Eastern Europe, the SEA covers most of Eastern Asia. In general the EU, US, and RU servers are run fairly similar when it comes to new updates and tanks released. The SEA servers are run by a seperate company which has a degree of freedom when it comes to new content added. It is important to note that due to the ongoing conflict in Ukraine, Wargaming has effectively exited Russia and Belarus and handed control of the RU server to a Belorussian company so the status of the RU server may change in the near future. There is also a South American and Oceania server however, those servers contain so few people, it is typically not tracked and thus incredibly difficult to find data on therefore, those servers are not included in this study.</p>
+<h2 id="the-world-of-tanks-playerbase">The World of Tanks Playerbase</h2>
+<p>When calculating the number of play, a “play” is added to the count whenever a player hits the “play” button in the lobby. Because there are usually 30 players in a game this means that a single game will typically add 30 counts to the “play” count (this is approximate as there are bots and games with less than 30 players meaning that there are many games with less than 30 players). As of now:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>[1] &quot;There are a total of 1000195757 plays and approximately 33339859 games ran in the last 60 days.&quot;</code></pre>
+</div>
+<p>However, these players are not evenly distributed across these 4 servers.</p>
+<h3 id="pie-chart-for-percentage-of-plays-by-server">Pie Chart for Percentage of Plays by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<h3 id="table-of-plays-by-server">Table of Plays by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 4 x 3
+  Region `Total Plays` Percent
+  &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;  
+1 EU         164429952 16.4%  
+2 RU         741447650 74.1%  
+3 SEA         66699114 6.7%   
+4 US          27619041 2.8%   </code></pre>
+</div>
+<p>In general, Russia and Eastern Europe are where the vast majority player base World of Tanks games are played. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. South East Asia also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with the Russia over the Ukraine invasion considering the majority of their business appears to be reliant on Russian and Eastern European players.</p>
+<h2 id="server-effect-on-winrate">Server Effect on Winrate</h2>
+<p>Since each server is separate from each other and it isn’t convenient for player from different regions to switch servers, it might be interesting to compare player performance differences between the servers. Is there a difference in winrate based on the server played on?</p>
+<h3 id="boxplot-of-winrate-by-server-played">Boxplot of Winrate by Server Played</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<h3 id="mean-winrate-by-server-played">Mean Winrate by Server Played</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 4 x 3
+  Region `Mean Percent by Region Played` `Total Number of Tanks`
+  &lt;chr&gt;                            &lt;dbl&gt;                   &lt;int&gt;
+1 EU                                49.2                     693
+2 RU                                49.3                     710
+3 SEA                               49.4                     710
+4 US                                48.9                     695</code></pre>
+</div>
+<h3 id="anova-test-on-server-played">ANOVA Test on Server Played</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>              Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+Region         3    102   33.84   4.559 0.00343 **
+Residuals   2804  20817    7.42                   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>Looking at the boxplot for winrate by server, it is hard to tell any differences in means as the there are many outliers that make it hard to see differences that aren’t major. Looking at the table of means however, there does appear to be somewhat of a difference between the servers. It appears that the US players have a worse winrate overall than the other servers while SEA players have the best winrate overall. Performing an ANOVA test on the variable Region give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on players win rate.</p>
+<h2 id="server-effect-on-tank-nationality-choices">Server Effect on Tank Nationality Choices</h2>
+<p>One interesting thing to check is to see whether players tend to gravitate towards the tanks from their home country. For example will the players on the US server play Us tanks more than other servers and vice versa? * Note that there was an update that released new American Heavy tanks fairly recently so US tanks may be picked at a higher rate as a result</p>
+<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-eu-server">Pie Chart for Percentage of Tank Nationality Chosen for the EU Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-ru-server">Pie Chart for Percentage of Tank Nationality Chosen for the RU Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-us-server">Pie Chart for Percentage of Tank Nationality Chosen for the US Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-sea-server">Pie Chart for Percentage of Tank Nationality Chosen for the SEA Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p>Interestingly, this trend does appear to somewhat be true with the exception of the Asia server. The Asian server had large concentrations in US and Russian tanks while they had much less games played in other tanks. However, of the 3 remaining servers, the RU server appears to show the highest percentage of Russian tanks, the US server has the highest percentage of US tanks played. The EU server is a little more complicated as it doesn’t pertain to one country. However, the EU server still has the largest number of German players although this doesn’t appear to hold true for other EU countries.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

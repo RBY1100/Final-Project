@@ -5,7 +5,34 @@ site: distill::distill_website
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(rvest)
+library(scales)
+library(purrr)
+library(stats)
 
+wotscrapereg <- function(x,y){
+  tableda <- x %>%
+    read_html() %>%
+    html_nodes("table#stat_veh_all4")  %>% 
+    html_table() %>% 
+    .[[1]] %>%
+    mutate(Region=y, Winrate = Win/`Total played`*100) %>%
+    select(-`Win %`)
+}
+
+wot_tableeu2 <- wotscrapereg("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus2 <- wotscrapereg("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru2 <- wotscrapereg("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea2 <- wotscrapereg("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
+
+wot_list2 <- list(wot_tableeu2, wot_tableus2, wot_tableru2, wot_tablesea2)
+tank_statsreg <- do.call(rbind, wot_list2) %>%
+  na.omit() %>%
+  filter(`Total played` > 160)
+
+tank_statsreg$`Tier` <- as.character(tank_statsreg$`Tier`) %>%
+factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
 # Learn more about creating websites with Distill at:
 # https://rstudio.github.io/distill/website.html
 
@@ -13,14 +40,162 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## World of Tanks Different Regions
 
-World of Tanks is a global game and thus runs on 4 major distinct servers. The US server encompasses the North American region, the EU server covers most of the EU region, the RU servers covers primarily Russia but also Eastern Europe, the SEA covers most of Eastern Asia. In general the EU, US, and RU servers are run fairly similar when it comes to new updates and tanks released. The SEA servers are run by a seperate company which has a degree of freedom when it comes to new content added. It is important to note that due to the ongoing conflict in Ukraine, Wargaming has effectively exited Russia and Belarus and handed control of the RU server to a Belorussian company so the status of the RU server may change in the near future.
+World of Tanks is a global game and thus runs on 4 major distinct servers. The US server encompasses the North American region, the EU server covers most of the EU region, the RU servers covers primarily Russia but also Eastern Europe, the SEA covers most of Eastern Asia. In general the EU, US, and RU servers are run fairly similar when it comes to new updates and tanks released. The SEA servers are run by a seperate company which has a degree of freedom when it comes to new content added. It is important to note that due to the ongoing conflict in Ukraine, Wargaming has effectively exited Russia and Belarus and handed control of the RU server to a Belorussian company so the status of the RU server may change in the near future. There is also a South American and Oceania server however, those servers contain so few people, it is typically not tracked and thus incredibly difficult to find data on therefore, those servers are not included in this study.
 
 ## The World of Tanks Playerbase
 
 When calculating the number of play, a "play" is added to the count whenever a player hits the "play" button in the lobby. Because there are usually 30 players in a game this means that a single game will typically add 30 counts to the "play" count (this is approximate as there are bots and games with less than 30 players meaning that there are many games with less than 30 players). As of now: 
+
 ```{r}
 total <- tank_statsreg %>%
   summarise(`Total Plays` = sum(`Total played`))
-print(paste("There are a total of", total, "plays in the past 60 days."))
+print(paste("There are a total of", total, "plays and approximately", round(total/30), "games ran in the last 60 days."))
 ```
 
+However, these players are not evenly distributed across these 4 servers. 
+
+### Pie Chart for Percentage of Plays by Server
+
+```{r}
+tank_statsreg %>%
+  group_by(Region) %>%
+  summarise(playedr = sum(`Total played`)) %>%
+  mutate(Percent=playedr / sum(playedr)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Region)%>%
+  ggplot(aes(x = "", y = Percent, fill = Region)) +
+  geom_col(color="black") +
+  geom_text(aes(label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+  
+```
+
+### Table of Plays by Server
+
+```{r}
+tank_statsreg %>%
+  group_by(Region) %>%
+  summarise(`Total Plays` = sum(`Total played`)) %>%
+  mutate(Percent = scales::percent(`Total Plays` / sum(`Total Plays`)))
+```
+
+In general, Russia and Eastern Europe are where the vast majority player base World of Tanks games are played. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. South East Asia also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with the Russia over the Ukraine invasion considering the majority of their business appears to be reliant on Russian and Eastern European players.
+
+## Server Effect on Winrate
+
+Since each server is separate from each other and it isn't convenient for player from different regions to switch servers, it might be interesting to compare player performance differences between the servers. Is there a difference in winrate based on the server played on?
+
+### Boxplot of Winrate by Server Played
+```{r}
+tank_statsreg %>%
+  ggplot(mapping=aes(x=Winrate, group=Region, color=Region)) +
+  geom_boxplot()
+```
+
+### Mean Winrate by Server Played
+```{r}
+tank_statsreg %>%
+  group_by(Region) %>%
+  summarise("Mean Percent by Region Played" = mean(Winrate), "Total Number of Tanks" = length(Winrate))
+```
+
+### ANOVA Test on Server Played
+```{r}
+aov(Winrate ~ Region, data = tank_statsreg) %>%
+  summary()
+
+```
+
+Looking at the boxplot for winrate by server, it is hard to tell any differences in means as the there are many outliers that make it hard to see differences that aren't major. Looking at the table of means however, there does appear to be somewhat of a difference between the servers. It appears that the US players have a worse winrate overall than the other servers while SEA players have the best winrate overall. Performing an ANOVA test on the variable Region give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on players win rate.
+
+## Server Effect on Tank Nationality Choices
+
+One interesting thing to check is to see whether players tend to gravitate towards the tanks from their home country. For example will the players on the US server play Us tanks more than other servers and vice versa?
+* Note that there was an update that released new American Heavy tanks fairly recently so US tanks may be picked at a higher rate as a result
+
+### Pie Chart for Percentage of Tank Nationality Chosen for the EU Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "EU") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+
+### Pie Chart for Percentage of Tank Nationality Chosen for the RU Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "RU") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+### Pie Chart for Percentage of Tank Nationality Chosen for the US Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "US") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+### Pie Chart for Percentage of Tank Nationality Chosen for the SEA Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "SEA") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+Interestingly, this trend does appear to somewhat be true with the exception of the Asia server. The Asian server had large concentrations in US, Russian and German tanks while they had much less games played in other tanks. However, of the 3 remaining servers, the RU server appears to show the highest percentage of Russian tanks, the US server has the highest percentage of US tanks played. The EU server is a little more complicated as it doesn't pertain to one country. However, the EU server still has the largest number of German players although this doesn't appear to hold true for other EU countries.

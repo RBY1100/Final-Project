@@ -128,6 +128,69 @@ tank_statstot %>%
 aov(`Win Rate %` ~ Type, data = tank_statstot) %>%
   summary()
 
+#Tank Nation Preferences
+tank_statstot %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+
+#Tank Tier Preferences
+tank_statstot %>%
+  group_by(Tier) %>%
+  summarise(`Tier Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Tier Played` / sum(`Tier Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Tier)%>%
+  ggplot(aes(x = "", y = Percent, fill = Tier)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+
+#Tank Type Preferences
+tank_statstot %>%
+  group_by(Type) %>%
+  summarise(`Type Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Type Played` / sum(`Type Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Type)%>%
+  ggplot(aes(x = "", y = Percent, fill = Type)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+
+#Tank Premium Games Played
+tank_statstot %>%
+  group_by(Premium) %>%
+  summarise(`Premium Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Premium Played` / sum(`Premium Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Premium)%>%
+  ggplot(aes(x = "", y = Percent, fill = Premium)) +
+  geom_col(color="black") +
+  geom_text(aes(label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
 
 
 #Creates datasets and join together for analyzing differences in servers
@@ -149,7 +212,7 @@ factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
 #Total Number of Plays
 total <- tank_statsreg %>%
   summarise(`Total Plays` = sum(`Total played`))
-print(paste("There are a total of", total, "plays in the past 60 days."))
+print(paste("There are a total of", total, "plays and approximately", round(total/30), "games ran in the last 60 days."))
 
 #Winrate based on Region
 tank_statsreg %>%
