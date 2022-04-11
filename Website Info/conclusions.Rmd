@@ -1,0 +1,50 @@
+---
+title: "Conclusions"
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Based on the data collected, there are certainly some conclusions that we can draw both for the different servers and the many different tanks in the game.
+
+## Region Conclusions
+
+Data on the difference World of Tanks servers helped showcase where the World of Tanks playerbase primarily resides as well as different preferences from the players on different servers.
+
+### Server Share
+
+Based on the data collected, the vast majority of players in World of Tanks are from Eastern Europe and Russia while the EU follows far behind. This may largely be due to the fact that Wargaming was originally a Belorussian company although due to world events they have recently announced moving all operations out of the country. It is noteworthy that this data is also including the effects of Wargaming pledging to leave the RU region due to the ongoing conflict in Ukraine. As a result, it is likely that the RU numbers are even lower than they normally would be indicating what a massive presence the RU server has on the World of Tanks player base. 
+
+### Server Winrates
+
+In general, it appears that the RU players tend to have higher winrates overall while the US has the lowest winrates. It is somewhat hard to draw any conclusion from this other than the fact that players in the US play more cautiously overall which increases the chances of there being a draw in the game. The RU players have always had a reputation for being the best players of the game and this data does appear to support that.
+
+### Server Tank Nationality Preferences
+
+In general, there does appear to be a preference for players to play tanks from their own country. The SEA server is the only server that does not follow this trend as they had the highest percentage of players who player US, USSR/Russian, and German tanks while their rates for Japanese and Chinese tanks were lower than other servers. However, all of the other servers tended to show a preference for tanks from their own nation. The US server showed a rather significant preference for US tanks over the other servers while the RU server showed a similar preference for USSR/Russian tanks. The EU server showed a slight preference for German tanks over other servers although their rates for UK and French tanks were not much higher.
+
+## Tank Conclusions
+
+Data on the different tanks in World of Tanks helped showcase different tank aspects that will effect the win rate of a tank. The data also provides some important insights into player preferences and both supports and debunks some claims that have been made in the player base.
+
+### Tank Type Preferences and Win Rates
+
+In the past 60 days, players appear to have a clear preference for heavy tanks, medium tanks, and tank destroyers. This isn't too surprising overall as light tanks are one of the hardest classes to play so new players are less likely to gravitate towards them. Many player do not enjoy playing artillery because its play style can become boring to a large portion of players explaining its lower play rate. However, even with these preferences, there doesn't appear to be any clear statistical evidence that win rate varies based on the class being played. In general, it appears that each niche has an equally important place in the game and Wargaming has done a good job making each tank class impactful to the outcome of a game.
+
+### Tank Tier Preferences and Win Rates
+
+In general, it appears that players tend to gravitate towards the higher tiers (8,9,10) with those tiers making up about 2/3 games played. Tier 8 is noticeably the highest but due to the fact that tier 8 also contains the most tanks of any tier and most popular premium tanks reside at tier 8, it isn't too surprising why this tier is the most popular overall. In general, the higher the tier, the more games that are played. This is likely due to the XP system in World of Tanks which makes getting higher tier tanks increasingly harder and more time consuming. This means that the higher your tier, the more time and games you will have to play to advance forward. Looking at win rates however, it appears that tier 1 is noticeably lower overall. This is likely due to the fact that tier 1 is the only tier that can only ever face tanks that are higher tier than it. In other words, tier 1 tanks can face tier 2 tanks but there isn't a tier below 1 that they can dominate instead. As a result, tier 1 will likely be less impactful compared to any other tier in the game. Tier 1 also has the newest players who will likely be bad at the game compared to more experienced players. Tier 8 is also somewhat low. This may be due to the fact that tier 8 contains most of the premium tanks. Because players can buy a premium tank as soon as they get the game if they want, there may be a significant number of players who simply bought a tier 8 and are brand new to the game which could drag down the win rate for the tier as a whole.
+
+### Tank Nationality Preferences and Win Rates
+
+It appears that the most popular nations are the ones with the most tanks available and the nations with servers based in countries where players can play tanks from their home country. This means that USSR/Russian, US, German, and French tanks make up a large majority of all tanks played while the other nations tend to hold very small percentages overall. While Swedish and Japanese tanks do appear to have the lowest win rates overall, they don't appear to be statistically significant. However, perhaps more importantely, it doesn't apppear that any player claims of "Russian Bias" or "German Power Creep" appear to be supported by the data. The nations appear to be farily well balanced.
+
+### Tank Premium Status and Win Rates
+
+Overall, about 1/3 of all games played are played with a premium tank. This indicates that tanks purchasable with real currency are now a substantial part of the game. It is important to note that Wargaming does hold events that give players free premium tanks so that doesn't necessarily mean that these tanks were all purchased with real currency. However, it does appear the using a premium tank does provide a noticeable increase to average win rate. There is clear evidence shown in the data that premium tanks do appear to be more powerful/impactful to a game. This makes sense as Wargaming is incentivized to make their premium tanks stronger than their non-premium counterparts. No wone will want to purchase a tank that is just weaker than a tank they can get for free. In order to ensure people continue to spend money on new tanks, Wargaming has an incentive to release premium tanks more powerful than their free counterparts. As long as players don't get upset with the balance of the game, this trend will continue as it is likely the more poriftable option for Wargaming.
+
+## Conclusion
+
+In conclusion, this data has provided some valuable insights onto the makeup of the player base as well as the different aspects that might impact a tanks overall win rate. I hope that this information would prove useful to both players of the game who can use this information to determine what kind of win rate they might expect depending on what they play and outsiders who I've now given a glimpse into a game that I have played many hours of over the years. 

@@ -72,7 +72,7 @@ tank_statstot <- tank_statstot%>%
 
 ## The Tanks in World of Tanks
 
-World of tanks contains more than 600 different tanks. All of them have different characteristics. This project will use a few characteristics such as Type, Tier, Nation, and its premium status to see if they have any major effect on winrate.
+World of Tanks contains more than 600 different tanks. All of them have different characteristics. This project will use a few characteristics such as Type, Tier, Nation, and its premium status to see if they have any major effect on winrate.
 
 ### Tank Type
 
