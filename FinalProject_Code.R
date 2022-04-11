@@ -21,7 +21,8 @@ wotscrapereg <- function(x,y){
     html_nodes("table#stat_veh_all4")  %>% 
     html_table() %>% 
     .[[1]] %>%
-    mutate(region=y)
+    mutate(Region=y, Winrate = Win/`Total played`*100) %>%
+    select(-`Win %`)
 }
 
 
@@ -29,23 +30,12 @@ wotscrapereg <- function(x,y){
 wot_tableeu <- wotscrapewr("https://wot-news.com/stat/server/eu/norm/en/", "EU")
 wot_tableus <- wotscrapewr("https://wot-news.com/stat/server/us/norm/en/", "US") 
 wot_tableru <- wotscrapewr("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
-wot_tablesea <- wotscrapewr("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
+wot_tablesea <- wotscrapewr("https://wot-news.com/stat/server/sea/norm/en/", "SEA")
 other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv") %>%
   select("Name", "Premium")
 
 wot_list <- list(wot_tableeu, wot_tableus, wot_tableru, wot_tablesea, other_info)
 tank_statstot <- wot_list %>% reduce(inner_join, by="Name")
-
-
-#Creates datasets and join together for analyzing differences in servers
-wot_tableeu2 <- wotscrapereg("https://wot-news.com/stat/server/eu/norm/en/", "EU")
-wot_tableus2 <- wotscrapereg("https://wot-news.com/stat/server/us/norm/en/", "US") 
-wot_tableru2 <- wotscrapereg("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
-wot_tablesea2 <- wotscrapereg("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
-
-wot_list2 <- list(wot_tableeu2, wot_tableus2, wot_tableru2, wot_tablesea2)
-tank_statsreg <- do.call(rbind, wot_list2)
-
 
 #Remove Unnessesary Variables and Rename Remaining ones
 tank_statstot <- tank_statstot %>%
@@ -88,12 +78,9 @@ tank_statstot <- tank_statstot%>%
 #View Data
 print(tank_statstot)
 
+#Plots/Tables for Tank Data
 
-
-
-#Some Basic Plots for Data
-
-#Damage Based on Tier
+#Winrate Based on Tier
 tank_statstot %>%
   ggplot(mapping=aes(x=`Win Rate %`, group=Tier, color=Tier)) +
   geom_boxplot()
@@ -140,4 +127,130 @@ tank_statstot %>%
 
 aov(`Win Rate %` ~ Type, data = tank_statstot) %>%
   summary()
+
+
+
+#Creates datasets and join together for analyzing differences in servers
+wot_tableeu2 <- wotscrapereg("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus2 <- wotscrapereg("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru2 <- wotscrapereg("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea2 <- wotscrapereg("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
+
+wot_list2 <- list(wot_tableeu2, wot_tableus2, wot_tableru2, wot_tablesea2)
+tank_statsreg <- do.call(rbind, wot_list2) %>%
+  na.omit() %>%
+  filter(`Total played` > 160)
+
+tank_statsreg$`Tier` <- as.character(tank_statsreg$`Tier`) %>%
+factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+
+#Plots/Tables for Region Data
+
+#Total Number of Plays
+total <- tank_statsreg %>%
+  summarise(`Total Plays` = sum(`Total played`))
+print(paste("There are a total of", total, "plays in the past 60 days."))
+
+#Winrate based on Region
+tank_statsreg %>%
+  ggplot(mapping=aes(x=Winrate, group=Region, color=Region)) +
+  geom_boxplot()
+
+tank_statsreg %>%
+  group_by(Region) %>%
+  summarise("Mean Percent by Region Played" = mean(Winrate), "Total Number of Tanks" = length(Winrate))
+
+aov(Winrate ~ Region, data = tank_statsreg) %>%
+  summary()
+
+
+#Total Server Population Breakdown
+tank_statsreg %>%
+  group_by(Region) %>%
+  summarise(playedr = sum(`Total played`)) %>%
+  mutate(Percent=playedr / sum(playedr)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Region)%>%
+  ggplot(aes(x = "", y = Percent, fill = Region)) +
+  geom_col(color="black") +
+  geom_text(aes(label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+  
+tank_statsreg %>%
+  group_by(Region) %>%
+  summarise(`Total Plays` = sum(`Total played`)) %>%
+  mutate(Percent = scales::percent(`Total Plays` / sum(`Total Plays`))) %>%
+  print()
+
+#Tank Preferences by Region
+#RU
+tank_statsreg %>%
+  filter(Region == "RU") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+#US
+tank_statsreg %>%
+  filter(Region == "US") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+
+#EU
+tank_statsreg %>%
+  filter(Region == "EU") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+
+#SEA
+tank_statsreg %>%
+  filter(Region == "SEA") %>%
+  group_by(Nation) %>%
+  summarise(`Nation Played` = sum(`Total played`)) %>%
+  mutate(Percent = `Nation Played` / sum(`Nation Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Nation)%>%
+  ggplot(aes(x = "", y = Percent, fill = Nation)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
 
