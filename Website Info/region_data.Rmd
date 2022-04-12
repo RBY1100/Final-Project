@@ -10,6 +10,7 @@ library(rvest)
 library(scales)
 library(purrr)
 library(stats)
+library(rmarkdown)
 
 wotscrapereg <- function(x,y){
   tableda <- x %>%
@@ -25,14 +26,23 @@ wot_tableeu2 <- wotscrapereg("https://wot-news.com/stat/server/eu/norm/en/", "EU
 wot_tableus2 <- wotscrapereg("https://wot-news.com/stat/server/us/norm/en/", "US") 
 wot_tableru2 <- wotscrapereg("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
 wot_tablesea2 <- wotscrapereg("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
+other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv") %>%
+  select("Name", "Premium")
 
 wot_list2 <- list(wot_tableeu2, wot_tableus2, wot_tableru2, wot_tablesea2)
 tank_statsreg <- do.call(rbind, wot_list2) %>%
-  na.omit() %>%
-  filter(`Total played` > 160)
+  filter(`Total played` > 160) %>%
+  inner_join(other_info) %>%
+  na.omit()
+tank_statsreg$Premium <- as.character(tank_statsreg$Premium)
 
 tank_statsreg$`Tier` <- as.character(tank_statsreg$`Tier`) %>%
 factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+
+tank_statsreg <- tank_statsreg %>%
+  mutate(Premium = fct_recode(Premium,
+                              "No" = "0",
+                              "Yes" = "1"))
 # Learn more about creating websites with Distill at:
 # https://rstudio.github.io/distill/website.html
 
@@ -199,3 +209,90 @@ tank_statsreg %>%
 ```
 
 Interestingly, this trend does appear to somewhat be true with the exception of the Asia server. The Asian server had large concentrations in US, Russian and German tanks while they had much less games played in other tanks. However, of the 3 remaining servers, the RU server appears to show the highest percentage of Russian tanks, the US server has the highest percentage of US tanks played. The EU server is a little more complicated as it doesn't pertain to one country. However, the EU server still has the largest number of German players although this doesn't appear to hold true for other EU countries.
+
+## Server Effect on Premium Tank Games Played
+
+One interesting thing to check is to see whether players tend to purchase and play more premium tanks depending on the different servers. this might explain some of Wargamings marketing decisions if there are major differences between servers.
+
+### Pie Chart for Percentage of Premium Games Played for the EU Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "EU") %>%
+  group_by(Premium) %>%
+  summarise(`Premium Status` = sum(`Total played`)) %>%
+  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Premium)%>%
+  ggplot(aes(x = "", y = Percent, fill = Premium)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+
+### Pie Chart for Percentage of Premium Games Played for the RU Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "RU") %>%
+  group_by(Premium) %>%
+  summarise(`Premium Status` = sum(`Total played`)) %>%
+  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Premium)%>%
+  ggplot(aes(x = "", y = Percent, fill = Premium)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+### Pie Chart for Percentage of Premium Games Played for the US Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "US") %>%
+  group_by(Premium) %>%
+  summarise(`Premium Status` = sum(`Total played`)) %>%
+  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Premium)%>%
+  ggplot(aes(x = "", y = Percent, fill = Premium)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+### Pie Chart for Percentage of Premium Games Played for the SEA Server
+
+```{r}
+tank_statsreg %>%
+  filter(Region == "SEA") %>%
+  group_by(Premium) %>%
+  summarise(`Premium Status` = sum(`Total played`)) %>%
+  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Premium)%>%
+  ggplot(aes(x = "", y = Percent, fill = Premium)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.5, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+Interestingly, the US, EU, and RU servers all have a near identical percentage of premium tank games played. This is remarkably similar considering how different some of these regions can be. This indicates both similar consumer attitudes for the premium tanks and similar marketing across these servers. However, the SEA server is noticeably different from the other servers with a much lower premium tank play rate overall. 

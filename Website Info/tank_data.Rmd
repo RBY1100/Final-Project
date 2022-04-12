@@ -9,6 +9,7 @@ library(tidyverse)
 library(rvest)
 library(scales)
 library(purrr)
+library(rmarkdown)
 
 wotscrapewr <- function(x,y){
   tableda <- x %>%
@@ -260,3 +261,79 @@ aov(`Win Rate %` ~ Premium, data = tank_statstot) %>%
 ```
 
 Looking at the boxplots, there does appear to be a significant difference in the win rate between premium and non-premium tanks. Looking at the means, premium tanks appear to have an almost 2% high winrate than non-premium tanks. Running an ANOVA test on the premium status of the tanks, the p-value is very low indicating that premium status does certainly seem to effect the win rate of a tank.
+
+## More Specific Tank Stats
+
+Now that we've seen some of the specific tank attributes that can affect the win rate of a tank, we will now take a look at some of the most popular tanks and the tanks with the highest win rates.
+
+### Top 10 Most Popular Tanks
+
+```{r}
+tank_statstot %>%
+  arrange(desc(`Total Played`)) %>%
+  select(Name,`Win Rate %`,`Total Played`,Premium,Tier,Nation,Type) %>%
+  paged_table(options = list(rows.print = 10))
+```
+
+Interestingly, 6/10 of the most popular tanks are premium tanks which means people had to spend real money to play them. This indicates a clear popularity with their play style. In fact, many of the tanks on this list are particularly unique indicating that players tend to favor tanks that are fun to play. For example, the FV4005 and KV-2 are both notorious in the game as tanks that can kill other tanks in a single shot as a result, people seem to pick those tanks at a higher rate. The overall win rate for most of these tanks isn't particularly high (with the exception of the Bat Chat) which indicates players tend to gravitate towards fun tanks even if those tanks aren't as strong.
+
+### Top 10 Highest Win Rate Tanks
+
+```{r}
+tank_statstot %>%
+  arrange(desc(`Win Rate %`)) %>%
+  select(Name,`Win Rate %`,`Total Played`,Premium,Tier,Nation,Type) %>%
+  paged_table(options = list(rows.print = 10))
+```
+
+An astounding 10/10 of the the highest win rate tanks are premium tanks. However, there is certainly a bit of nuance with this list. Three of these tanks (T95, VK 72., Object 279r) are clan wars tanks, only given to the best players in the game so they will obviously have a high win rate as a result. On top of this, some of these tanks are extremely rare (Pz 38H, A-32, Skoda T-45, SU-76I). These tanks will only be acquired by the most dedicated collectors who will likely also be very good at the game. However, even accounting for these nuances, it certainly appears that premium tanks do have the edge overall. In fact the first non-premium tank by win rate is the Pz 38t at 17th place!
+
+## Checking the Newest Tanks Releases
+
+Within the last 3 months, Wargaming has released a new line of tanks called "Yoh" tanks. These tanks are all US heavy tanks with a unique play style compared to other heavy tanks. There was a Tier 6, 7, 8, 9, and 10 standard tank released as well as 1 tier 8 premium tank. These tanks have been in the game for a very short time so there have not been any balance changes done to the tanks. However, is there any evidence that these tanks are performing too well or not well enough?
+
+![](yohtank.jpg)
+
+Image of the Tier 10 Yoh Tank
+
+### Yoh Tanks Individual Performance 
+
+```{r}
+tank_statstot %>%
+  filter(Name %in% c("A142 Pawlack Tank", "A147 M II Y", "A139 M III Y", "A144 M VI Y", "A143 M V Y", "T32 FL")) %>%
+  arrange(Tier)%>%
+  select(Name,`Win Rate %`,`Total Played`,Tier,Premium) %>%
+  paged_table()
+```
+
+It doesn't appear that any of the Yoh tanks have an abnormally high win rate. However, it does appear that the tier 9 Yoh tank does have a noticeably lower win rate. Overall, none of the tanks appear too powerful. 
+
+### Yoh Tank Status Boxplot
+
+```{r}
+`%!in%` <- Negate(`%in%`)
+tank_statstot <-   tank_statstot %>%
+  mutate(`Yoh Tank` = case_when(Name %in% c("A142 Pawlack Tank", "A147 M II Y", "A139 M III Y", "A144 M VI Y", "A143 M V Y", "T32 FL") ~ 'Yes',
+                                Name %!in% c("A142 Pawlack Tank", "A147 M II Y", "A139 M III Y", "A144 M VI Y", "A143 M V Y", "T32 FL") ~ 'No'))
+
+tank_statstot %>%
+  ggplot(mapping=aes(x=`Win Rate %`, group=`Yoh Tank`, color=`Yoh Tank`)) +
+  geom_boxplot()
+```
+
+### Yoh Tank Mean Comparison
+
+```{r}
+tank_statstot %>%
+  group_by(`Yoh Tank`) %>%
+  summarise("Mean Percent by Yoh Tank Status" = mean(`Win Rate %`), "Total Number in Group" = length(`Win Rate %`))
+```
+
+### Yoh Tank ANOVA Test
+
+```{r}
+aov(`Win Rate %` ~ `Yoh Tank`, data = tank_statstot) %>%
+  summary()
+```
+
+Using a boxplot and comparing means comparing Yoh tanks and non-Yoh tanks, there doesn't appear to be any major difference between these two groups. An ANVOA test also supports this conclusion with a p-value well above any significance level. Overall, it appears that Wargaming did do a decent job keeping the Yoh tanks fairly balanced. Although they may perhaps want to look at the tier 9 Yoh tank.

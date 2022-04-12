@@ -196,29 +196,38 @@ tank_statstot %>%
 tank_statstot %>%
   arrange(desc(`Total Played`)) %>%
   select(Name,`Total Played`,`Win Rate %`,Type,Tier,Nation,Premium) %>%
-  print()
+  head(10)
 
 #Top 10 Highest Winrate Tanks
 tank_statstot %>%
   arrange(desc(`Win Rate %`)) %>%
   select(Name,`Win Rate %`,`Total Played`,Type,Tier,Nation,Premium) %>%
-  print()
+  head(10)
 
 #Yoh Tanks (New Tank Line)
 
 tank_statstot %>%
   filter(Name %in% c("A142 Pawlack Tank", "A147 M II Y", "A139 M III Y", "A144 M VI Y", "A143 M V Y", "T32 FL")) %>%
   arrange(Tier)%>%
-  select(Name,`Win Rate %`,`Total Played`,Type,Tier,Nation,Premium)%>%
-  print()
+  select(Name,`Win Rate %`,`Total Played`,Type,Tier,Nation,Premium)
 
 #Test For Balance
 
+`%!in%` <- Negate(`%in%`)
+tank_statstot <-   tank_statstot %>%
+  mutate(`Yoh Tank` = case_when(Name %in% c("A142 Pawlack Tank", "A147 M II Y", "A139 M III Y", "A144 M VI Y", "A143 M V Y", "T32 FL") ~ 'Yes',
+                                Name %!in% c("A142 Pawlack Tank", "A147 M II Y", "A139 M III Y", "A144 M VI Y", "A143 M V Y", "T32 FL") ~ 'No'))
+
 tank_statstot %>%
-  if(Name %in% "T32 FL"){
-    tank_statstot$yoh = "Yes"
-  } %>%
-  print()
+  ggplot(mapping=aes(x=`Win Rate %`, group=`Yoh Tank`, color=`Yoh Tank`)) +
+  geom_boxplot()
+
+tank_statstot %>%
+  group_by(`Yoh Tank`) %>%
+  summarise("Mean Percent by Yoh Tank Status" = mean(`Win Rate %`), "Total Number in Group" = length(`Win Rate %`))
+
+aov(`Win Rate %` ~ `Yoh Tank`, data = tank_statstot) %>%
+  summary()
 
 
 #Creates datasets and join together for analyzing differences in servers
@@ -418,3 +427,4 @@ tank_statsreg %>%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
         panel.grid  = element_blank())
+
