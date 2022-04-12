@@ -6,7 +6,7 @@ navbar:
   right:
     - text: "Intro"
       href: index.html
-    - text: "Region Data"
+    - text: "Server Data"
       href: region_data.html
     - text: "Tank Data"
       href: tank_data.html

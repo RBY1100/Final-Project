@@ -17,9 +17,9 @@ Data on the difference World of Tanks servers helped showcase where the World of
 
 Based on the data collected, the vast majority of players in World of Tanks are from Eastern Europe and Russia while the EU follows far behind. This may largely be due to the fact that Wargaming was originally a Belorussian company although due to world events they have recently announced moving all operations out of the country. It is noteworthy that this data is also including the effects of Wargaming pledging to leave the RU region due to the ongoing conflict in Ukraine. As a result, it is likely that the RU numbers are even lower than they normally would be indicating what a massive presence the RU server has on the World of Tanks player base. 
 
-### Server Winrates
+### Server Win Rates
 
-In general, it appears that the RU players tend to have higher winrates overall while the US has the lowest winrates. It is somewhat hard to draw any conclusion from this other than the fact that players in the US play more cautiously overall which increases the chances of there being a draw in the game. The RU players have always had a reputation for being the best players of the game and this data does appear to support that.
+In general, it appears that the RU players tend to have higher win rates overall while the US has the lowest win rates. It is somewhat hard to draw any conclusion from this other than the fact that players in the US play more cautiously overall which increases the chances of there being a draw in the game. The RU players have always had a reputation for being the best players of the game and this data does appear to support that.
 
 ### Server Tank Nationality Preferences
 

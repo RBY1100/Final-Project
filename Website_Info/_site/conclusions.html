@@ -87,26 +87,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>STA 518 Project: World of Tanks Data by Region</title>
+  <title>STA 518 Project: Conclusions</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="STA 518 Project: World of Tanks Data by Region"/>
+  <meta property="og:title" content="STA 518 Project: Conclusions"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="STA 518 Project"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="STA 518 Project: World of Tanks Data by Region"/>
+  <meta property="twitter:title" content="STA 518 Project: Conclusions"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site"]}},"value":[{"type":"character","attributes":{},"value":["World of Tanks Data by Region"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site"]}},"value":[{"type":"character","attributes":{},"value":["Conclusions"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2346,8 +2346,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }</style>
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
-  <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-  <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2367,7 +2365,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"World of Tanks Data by Region","authors":[]}
+{"title":"Conclusions","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2379,7 +2377,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <div class="nav-right">
 <a href="index.html">Intro</a>
-<a href="region_data.html">Region Data</a>
+<a href="region_data.html">Server Data</a>
 <a href="tank_data.html">Tank Data</a>
 <a href="conclusions.html">Conclusions</a>
 <a href="https://github.com/Robert-Bilyk">
@@ -2397,7 +2395,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>World of Tanks Data by Region</h1>
+<h1>Conclusions</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2405,89 +2403,38 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
-<h2 id="world-of-tanks-different-regions">World of Tanks Different Regions</h2>
-<p>World of Tanks is a global game and thus runs on 4 major distinct servers. The US server encompasses the North American region, the EU server covers most of the EU region, the RU servers covers primarily Russia but also Eastern Europe, the SEA covers most of Eastern Asia. In general the EU, US, and RU servers are run fairly similar when it comes to new updates and tanks released. The SEA servers are run by a seperate company which has a degree of freedom when it comes to new content added. It is important to note that due to the ongoing conflict in Ukraine, Wargaming has effectively exited Russia and Belarus and handed control of the RU server to a Belorussian company so the status of the RU server may change in the near future. There is also a South American and Oceania server however, those servers contain so few people, it is typically not tracked and thus incredibly difficult to find data on therefore, those servers are not included in this study.</p>
-<h2 id="the-world-of-tanks-playerbase">The World of Tanks Playerbase</h2>
-<p>When calculating the number of play, a “play” is added to the count whenever a player hits the “play” button in the lobby. Because there are usually 30 players in a game this means that a single game will typically add 30 counts to the “play” count (this is approximate as there are bots and games with less than 30 players meaning that there are many games with less than 30 players). As of now:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code>[1] &quot;There are a total of 1010599474 plays and approximately 33686649 games ran in the last 60 days.&quot;</code></pre>
-</div>
-<p>However, these players are not evenly distributed across these 4 servers.</p>
-<h3 id="pie-chart-for-percentage-of-plays-by-server">Pie Chart for Percentage of Plays by Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
-</div>
-<h3 id="table-of-plays-by-server">Table of Plays by Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Region"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Total Plays"],"name":[2],"type":["int"],"align":["right"]},{"label":["Percent"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"EU","2":"166190122","3":"16.4%"},{"1":"RU","2":"748418755","3":"74.1%"},{"1":"SEA","2":"68087428","3":"6.7%"},{"1":"US","2":"27903169","3":"2.8%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-<p>In general, Russia and Eastern Europe are where the vast majority player base World of Tanks games are played. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. South East Asia also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with the Russia over the Ukraine invasion considering the majority of their business appears to be reliant on Russian and Eastern European players.</p>
-<h2 id="server-effect-on-winrate">Server Effect on Winrate</h2>
-<p>Since each server is separate from each other and it isn’t convenient for player from different regions to switch servers, it might be interesting to compare player performance differences between the servers. Is there a difference in winrate based on the server played on?</p>
-<h3 id="boxplot-of-winrate-by-server-played">Boxplot of Winrate by Server Played</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
-</div>
-<h3 id="mean-winrate-by-server-played">Mean Winrate by Server Played</h3>
-<div class="layout-chunk" data-layout="l-body">
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Region"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean Percent by Region Played"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Total Number of Tanks"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"EU","2":"49.21279","3":"700"},{"1":"RU","2":"49.23153","3":"702"},{"1":"SEA","2":"49.36320","3":"707"},{"1":"US","2":"48.86113","3":"702"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-<h3 id="anova-test-on-server-played">ANOVA Test on Server Played</h3>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code>              Df Sum Sq Mean Sq F value  Pr(&gt;F)   
-Region         3     97   32.43   4.392 0.00433 **
-Residuals   2807  20723    7.38                   
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-</div>
-<p>Looking at the boxplot for winrate by server, it is hard to tell any differences in means as the there are many outliers that make it hard to see differences that aren’t major. Looking at the table of means however, there does appear to be somewhat of a difference between the servers. It appears that the US players have a worse winrate overall than the other servers while SEA players have the best winrate overall. Performing an ANOVA test on the variable Region give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on players win rate.</p>
-<h2 id="server-effect-on-tank-nationality-choices">Server Effect on Tank Nationality Choices</h2>
-<p>One interesting thing to check is to see whether players tend to gravitate towards the tanks from their home country. For example will the players on the US server play Us tanks more than other servers and vice versa? * Note that there was an update that released new American Heavy tanks fairly recently so US tanks may be picked at a higher rate as a result</p>
-<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-eu-server">Pie Chart for Percentage of Tank Nationality Chosen for the EU Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
-</div>
-<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-ru-server">Pie Chart for Percentage of Tank Nationality Chosen for the RU Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
-</div>
-<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-us-server">Pie Chart for Percentage of Tank Nationality Chosen for the US Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
-</div>
-<h3 id="pie-chart-for-percentage-of-tank-nationality-chosen-for-the-sea-server">Pie Chart for Percentage of Tank Nationality Chosen for the SEA Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
-</div>
-<p>Interestingly, this trend does appear to somewhat be true with the exception of the Asia server. The Asian server had large concentrations in US, Russian and German tanks while they had much less games played in other tanks. However, of the 3 remaining servers, the RU server appears to show the highest percentage of Russian tanks, the US server has the highest percentage of US tanks played. The EU server is a little more complicated as it doesn’t pertain to one country. However, the EU server still has the largest number of German players although this doesn’t appear to hold true for other EU countries.</p>
-<h2 id="server-effect-on-premium-tank-games-played">Server Effect on Premium Tank Games Played</h2>
-<p>One interesting thing to check is to see whether players tend to purchase and play more premium tanks depending on the different servers. this might explain some of Wargamings marketing decisions if there are major differences between servers.</p>
-<h3 id="pie-chart-for-percentage-of-premium-games-played-for-the-eu-server">Pie Chart for Percentage of Premium Games Played for the EU Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
-</div>
-<h3 id="pie-chart-for-percentage-of-premium-games-played-for-the-ru-server">Pie Chart for Percentage of Premium Games Played for the RU Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
-</div>
-<h3 id="pie-chart-for-percentage-of-premium-games-played-for-the-us-server">Pie Chart for Percentage of Premium Games Played for the US Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
-</div>
-<h3 id="pie-chart-for-percentage-of-premium-games-played-for-the-sea-server">Pie Chart for Percentage of Premium Games Played for the SEA Server</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="region_data_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
-</div>
-<p>Interestingly, the US, EU, and RU servers all have a near identical percentage of premium tank games played. This is remarkably similar considering how different some of these regions can be. This indicates both similar consumer attitudes for the premium tanks and similar marketing across these servers. However, the SEA server is noticeably different from the other servers with a much lower premium tank play rate overall.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Based on the data collected, there are certainly some conclusions that we can draw both for the different servers and the many different tanks in the game.</p>
+<h2 id="region-conclusions">Region Conclusions</h2>
+<p>Data on the difference World of Tanks servers helped showcase where the World of Tanks playerbase primarily resides as well as different preferences from the players on different servers.</p>
+<h3 id="server-share">Server Share</h3>
+<p>Based on the data collected, the vast majority of players in World of Tanks are from Eastern Europe and Russia while the EU follows far behind. This may largely be due to the fact that Wargaming was originally a Belorussian company although due to world events they have recently announced moving all operations out of the country. It is noteworthy that this data is also including the effects of Wargaming pledging to leave the RU region due to the ongoing conflict in Ukraine. As a result, it is likely that the RU numbers are even lower than they normally would be indicating what a massive presence the RU server has on the World of Tanks player base.</p>
+<h3 id="server-win-rates">Server Win Rates</h3>
+<p>In general, it appears that the RU players tend to have higher win rates overall while the US has the lowest win rates. It is somewhat hard to draw any conclusion from this other than the fact that players in the US play more cautiously overall which increases the chances of there being a draw in the game. The RU players have always had a reputation for being the best players of the game and this data does appear to support that.</p>
+<h3 id="server-tank-nationality-preferences">Server Tank Nationality Preferences</h3>
+<p>In general, there does appear to be a preference for players to play tanks from their own country. The SEA server is the only server that does not follow this trend as they had the highest percentage of players who player US, USSR/Russian, and German tanks while their rates for Japanese and Chinese tanks were lower than other servers. However, all of the other servers tended to show a preference for tanks from their own nation. The US server showed a rather significant preference for US tanks over the other servers while the RU server showed a similar preference for USSR/Russian tanks. The EU server showed a slight preference for German tanks over other servers although their rates for UK and French tanks were not much higher.</p>
+<h3 id="server-premium-tank-trends">Server Premium Tank Trends</h3>
+<p>It appears that the US, RU and EU servers all have a similar preference for premium tanks overall with all servers remaining remarkably similar with about 1/3 of all games played being played with premium tanks. The SEA is the only significantly different server with only about 1/6 games played being with premium tanks. This indicates that players from the US, RU, and EU servers appear to have a similar preference when it comes to playing with premium tanks overall. Another reason may also be different marketing. As mentioned, the SEA server is the only server that isn’t currently directly run and administered by Wargmaing, instead being done through a third party. This might have lead to different marketing preferences leading to less premium tanks being purchased overall.</p>
+<h2 id="tank-conclusions">Tank Conclusions</h2>
+<p>Data on the different tanks in World of Tanks helped showcase different tank aspects that will effect the win rate of a tank. The data also provides some important insights into player preferences and both supports and debunks some claims that have been made in the player base.</p>
+<h3 id="tank-type-preferences-and-win-rates">Tank Type Preferences and Win Rates</h3>
+<p>In the past 60 days, players appear to have a clear preference for heavy tanks, medium tanks, and tank destroyers. This isn’t too surprising overall as light tanks are one of the hardest classes to play so new players are less likely to gravitate towards them. Many player do not enjoy playing artillery because its play style can become boring to a large portion of players explaining its lower play rate. However, even with these preferences, there doesn’t appear to be any clear statistical evidence that win rate varies based on the class being played. In general, it appears that each niche has an equally important place in the game and Wargaming has done a good job making each tank class impactful to the outcome of a game.</p>
+<h3 id="tank-tier-preferences-and-win-rates">Tank Tier Preferences and Win Rates</h3>
+<p>In general, it appears that players tend to gravitate towards the higher tiers (8,9,10) with those tiers making up about 2/3 games played. Tier 8 is noticeably the highest but due to the fact that tier 8 also contains the most tanks of any tier and most popular premium tanks reside at tier 8, it isn’t too surprising why this tier is the most popular overall. In general, the higher the tier, the more games that are played. This is likely due to the XP system in World of Tanks which makes getting higher tier tanks increasingly harder and more time consuming. This means that the higher your tier, the more time and games you will have to play to advance forward. Looking at win rates however, it appears that tier 1 is noticeably lower overall. This is likely due to the fact that tier 1 is the only tier that can only ever face tanks that are higher tier than it. In other words, tier 1 tanks can face tier 2 tanks but there isn’t a tier below 1 that they can dominate instead. As a result, tier 1 will likely be less impactful compared to any other tier in the game. Tier 1 also has the newest players who will likely be bad at the game compared to more experienced players. Tier 8 is also somewhat low. This may be due to the fact that tier 8 contains most of the premium tanks. Because players can buy a premium tank as soon as they get the game if they want, there may be a significant number of players who simply bought a tier 8 and are brand new to the game which could drag down the win rate for the tier as a whole.</p>
+<h3 id="tank-nationality-preferences-and-win-rates">Tank Nationality Preferences and Win Rates</h3>
+<p>It appears that the most popular nations are the ones with the most tanks available and the nations with servers based in countries where players can play tanks from their home country. This means that USSR/Russian, US, German, and French tanks make up a large majority of all tanks played while the other nations tend to hold very small percentages overall. While Swedish and Japanese tanks do appear to have the lowest win rates overall, they don’t appear to be statistically significant. However, perhaps more importantely, it doesn’t apppear that any player claims of “Russian Bias” or “German Power Creep” appear to be supported by the data. The nations appear to be farily well balanced.</p>
+<h3 id="tank-premium-status-and-win-rates">Tank Premium Status and Win Rates</h3>
+<p>Overall, about 1/3 of all games played are played with a premium tank. This indicates that tanks purchasable with real currency are now a substantial part of the game. It is important to note that Wargaming does hold events that give players free premium tanks so that doesn’t necessarily mean that these tanks were all purchased with real currency. However, it does appear the using a premium tank does provide a noticeable increase to average win rate. There is clear evidence shown in the data that premium tanks do appear to be more powerful/impactful to a game. This makes sense as Wargaming is incentivized to make their premium tanks stronger than their non-premium counterparts. No wone will want to purchase a tank that is just weaker than a tank they can get for free. In order to ensure people continue to spend money on new tanks, Wargaming has an incentive to release premium tanks more powerful than their free counterparts. As long as players don’t get upset with the balance of the game, this trend will continue as it is likely the more profitable option for Wargaming.</p>
+<h3 id="the-most-popular-tanks">The Most Popular Tanks</h3>
+<p>In general, it appears that players tend to prefer tanks that are fun over tanks that are powerful. While many of the most played tanks were premium tanks, there weren’t any large win rate differences between these tanks and all the other tanks with the exception of the Bat Chat. Quite the opposite in some cases. In the case of the FV4005, it has a really bad win rate but players tend to play it a lot due to its unique and fun play style. It appears that players gravitate towards unique tanks with a fun play style over tanks that are very powerful.</p>
+<h3 id="the-tanks-with-the-highest-win-rate">The Tanks with the Highest Win Rate</h3>
+<p>Surprisingly, all of the top 10 highest win rate tanks are all premium tanks. However, due to varying reasons, there are explanations for why many of these tanks have such an astonishingly high win rates. Some of these tanks are exclusive to the best players in the game while other are incredibly rare to get with only the most dedicated players getting their hands on them. Others are very expensive so there is essentially a pay wall where only the most dedicated World of Tanks fans are likely to purchase them. Regardless, these does certainly seem to be a trend where premium tanks have the higher win rates overall. Considering you have to go all to way to 17th place in order to find the first non-premium tank with a high win rate, there certainly seems to be a clear preference toward premium tanks when it comes to win rate.</p>
+<h2 id="the-power-of-the-new-tanks">The Power of the New Tanks</h2>
+<p>Examining whether the newest tanks Wargmaing has released are balanced compared to the other tanks already in the game.</p>
+<h3 id="the-yoh-tanks">The Yoh Tanks</h3>
+<p>In general, it appears that the Yoh tanks are relatively balanced compared to the other tanks in the game. While the tier 9 tanks appears to be somewhat weaker compared to other tanks, the Yoh line as a whole is not signigicantely more or less powerful. This indicates that Wargaming has done a good job testing these tanks and very little, if any, changes will need to be made to these tanks in the future.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In conclusion, this data has provided some valuable insights onto the makeup of the player base as well as the different aspects that might impact a tanks overall win rate. I hope that this information would prove useful to both players of the game who can use this information to determine what kind of win rate they might expect depending on what they play and outsiders who I’ve now given a glimpse into a game that I have played many hours of over the years.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

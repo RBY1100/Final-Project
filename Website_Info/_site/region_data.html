@@ -87,29 +87,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>STA 518 Project: Data Analysis Project</title>
+  <title>STA 518 Project: World of Tanks Data by Server</title>
 
-  <meta property="description" itemprop="description" content="Robert Bilyk"/>
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="STA 518 Project: Data Analysis Project"/>
+  <meta property="og:title" content="STA 518 Project: World of Tanks Data by Server"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Robert Bilyk"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="STA 518 Project"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="STA 518 Project: Data Analysis Project"/>
-  <meta property="twitter:description" content="Robert Bilyk"/>
+  <meta property="twitter:title" content="STA 518 Project: World of Tanks Data by Server"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","site"]}},"value":[{"type":"character","attributes":{},"value":["Data Analysis Project"]},{"type":"character","attributes":{},"value":["Robert Bilyk"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site"]}},"value":[{"type":"character","attributes":{},"value":["World of Tanks Data by Server"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2349,7 +2346,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }</style>
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
-  <link href="site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet" />
+  <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2369,7 +2367,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Analysis Project","description":"Robert Bilyk","authors":[]}
+{"title":"World of Tanks Data by Server","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2381,7 +2379,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <div class="nav-right">
 <a href="index.html">Intro</a>
-<a href="region_data.html">Region Data</a>
+<a href="region_data.html">Server Data</a>
 <a href="tank_data.html">Tank Data</a>
 <a href="conclusions.html">Conclusions</a>
 <a href="https://github.com/Robert-Bilyk">
@@ -2399,39 +2397,92 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Data Analysis Project</h1>
+<h1>World of Tanks Data by Server</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p>Robert Bilyk</p>
+
 </div>
 
 
 <div class="d-article">
-<p><img src="WoT-wallpaper-1.jpeg" /></p>
-<h2 id="questions-that-will-be-answered">Questions that will be answered</h2>
-<p>This analysis will be primarily focused on the individual winrates for each tank although other statistics may be considered and mentioned. The data scraped will provide a tanks nationality, class, tier, and if they are premium tanks. On top of this, the data provides win rates and player counts for each individual server. Using this data, this project will seek to:</p>
-<ul>
-<li>Observe and determine differences in player count and win rates by regions</li>
-<li>Determine differences in winrates based on different characteristics (tier/type/nation)</li>
-<li>Determine whether there is a balancing issue when it come to premium tanks (do they have an unfair advantage)</li>
-<li>Determine any particularly strong tanks and what characteristics they possess</li>
-</ul>
-<h2 id="about-world-of-tanks">About World of Tanks</h2>
-<h3 id="world-of-tanks-gameplay">World of Tanks Gameplay</h3>
-<p>World of Tanks is a massively multiplayer online game created by Wargaming. Released August 12, 2010 it continues to support relatively strong player counts. In World of Tanks, players take control of a single armored tank of their choice, and is placed into a battle on a random map. The player has control over the vehicle’s movement, firing, and can communicate with allied players and all the other players through typed or voice chat. A simple random match is won either by destroying all vehicles on the opposing team or capturing the opposing team’s base by staying in it for long enough without being damaged by another tank.</p>
+<h2 id="world-of-tanks-different-servers">World of Tanks Different Servers</h2>
+<p>World of Tanks is a global game and thus runs on 4 major distinct servers. The US server encompasses the North American Server, the EU server covers most of the EU Server, the RU servers covers primarily Russia but also Eastern Europe, the SEA covers most of Eastern Asia. In general the EU, US, and RU servers are run fairly similar when it comes to new updates and tanks released. The SEA servers are run by a seperate company which has a degree of freedom when it comes to new content added. It is important to note that due to the ongoing conflict in Ukraine, Wargaming has effectively exited Russia and Belarus and handed control of the RU server to a Belorussian company so the status of the RU server may change in the near future. There is also a South American and Oceania server however, those servers contain so few people, it is typically not tracked and thus incredibly difficult to find data on therefore, those servers are not included in this study.</p>
+<h2 id="the-world-of-tanks-playerbase">The World of Tanks Playerbase</h2>
+<p>When calculating the number of play, a “play” is added to the count whenever a player hits the “play” button in the lobby. Because there are usually 30 players in a game this means that a single game will typically add 30 counts to the “play” count (this is approximate as there are bots and games with less than 30 players meaning that there are many games with less than 30 players). As of now:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="vembedr">
-<div>
-<iframe src="https://www.youtube.com/embed/68orlULGqIA" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+<pre><code>[1] &quot;There are a total of 1010599474 plays and approximately 33686649 games ran in the last 60 days.&quot;</code></pre>
+</div>
+<p>However, these players are not evenly distributed across these 4 servers.</p>
+<h3 id="pie-chart-for-percentage-of-plays-by-server">Pie Chart for Percentage of Plays by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<h3 id="table-of-plays-by-server">Table of Plays by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Server"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Total Plays"],"name":[2],"type":["int"],"align":["right"]},{"label":["Percent"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"EU","2":"166190122","3":"16.4%"},{"1":"RU","2":"748418755","3":"74.1%"},{"1":"SEA","2":"68087428","3":"6.7%"},{"1":"US","2":"27903169","3":"2.8%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
 </div>
+<p>In general, Russia and Eastern Europe are where the vast majority player base World of Tanks games are played. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. The SEA server also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with the Russia over the Ukraine invasion considering the majority of their business appears to be reliant on Russian and Eastern European players.</p>
+<h2 id="server-effect-on-win-rate">Server Effect on Win Rate</h2>
+<p>Since each server is separate from each other and it isn’t convenient for player from different Servers to switch servers, it might be interesting to compare player performance differences between the servers. Is there a difference in win rate based on the server played on?</p>
+<h3 id="boxplot-of-win-rate-by-server-played">Boxplot of Win Rate by Server Played</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
-<p>Video demonstrating World of Tanks gameplay</p>
-<h3 id="the-tanks-in-the-game">The Tanks in the Game</h3>
-<p>In World of Tanks, vehicles are modeled to closely resemble their counterparts in real life. For game balance and for better ease of play, certain tank parameters have been simplified or modified from their actual historical values. World of Tanks has five different types of vehicles: light tanks, medium tanks, heavy tanks, tank destroyers, and self-propelled artillery. The game currently includes over 600 armored vehicles from Britain, China, Czechoslovakia, France, Germany, Italy, Japan, Poland, the Soviet Union, Sweden, and the United States. Additional premium and collectors’ vehicles are available outside the tech trees for cash or in-game credits.</p>
-<h3 id="about-the-data">About the Data</h3>
-<p>This data was scraped from the Wot-News website. This website pulls data from Wargamings servers in order to provide data on server activity and tanks statistics. This is updated daily and this project will take data from the last 60 days from the current day. This data can all be viewed on the Wot News website at: <a href="https://wot-news.com/" class="uri">https://wot-news.com/</a>. Some data that wasn’t included on Wot News such as whether a tank was a premium tank or not was manually added.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="mean-win-rate-by-server-played">Mean Win Rate by Server Played</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Server"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean Percent by Server Played"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Total Number of Tanks"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"EU","2":"49.21279","3":"700"},{"1":"RU","2":"49.23153","3":"702"},{"1":"SEA","2":"49.36320","3":"707"},{"1":"US","2":"48.86113","3":"702"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="anova-test-on-server-played">ANOVA Test on Server Played</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>              Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+Server         3     97   32.43   4.392 0.00433 **
+Residuals   2807  20723    7.38                   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>Looking at the boxplot for win rate by server, it is hard to tell any differences in means as the there are many outliers that make it hard to see differences that aren’t major. Looking at the table of means however, there does appear to be somewhat of a difference between the servers. It appears that the US players have a worse win rate overall than the other servers while SEA players have the best win rate overall. Performing an ANOVA test on the variable Server give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on players win rate.</p>
+<h2 id="server-effect-on-tank-nationality-choices">Server Effect on Tank Nationality Choices</h2>
+<p>One interesting thing to check is to see whether players tend to gravitate towards the tanks from their home country. For example will the players on the US server play US tanks more than other servers and vice versa?</p>
+<ul>
+<li>Note that there was an update that released new American Heavy tanks fairly recently so US tanks may be picked at a higher rate as a result</li>
+</ul>
+<h3 id="comparative-pie-charts-for-percentage-of-tank-nationality-chosen-by-server">Comparative Pie Charts for Percentage of Tank Nationality Chosen by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<h3 id="table-of-tank-nationality-percentages-by-server">Table of Tank Nationality Percentages by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Server"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Nation"],"name":[2],"type":["fct"],"align":["left"]},{"label":["Players"],"name":[3],"type":["int"],"align":["right"]},{"label":["Percent"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"SEA","2":"China","3":"2331652","4":"3.42%"},{"1":"SEA","2":"Czechoslovakia","3":"1129773","4":"1.66%"},{"1":"SEA","2":"France","3":"6527474","4":"9.59%"},{"1":"SEA","2":"Germany","3":"14239249","4":"20.91%"},{"1":"SEA","2":"Italy","3":"876620","4":"1.29%"},{"1":"SEA","2":"Japan","3":"1255245","4":"1.84%"},{"1":"SEA","2":"Poland","3":"566300","4":"0.83%"},{"1":"SEA","2":"Sweden","3":"1591992","4":"2.34%"},{"1":"SEA","2":"UK","3":"4756247","4":"6.99%"},{"1":"SEA","2":"USA","3":"17753294","4":"26.07%"},{"1":"SEA","2":"USSR","3":"17059582","4":"25.06%"},{"1":"RU","2":"China","3":"29973656","4":"4.00%"},{"1":"RU","2":"Czechoslovakia","3":"44496251","4":"5.95%"},{"1":"RU","2":"France","3":"93409534","4":"12.48%"},{"1":"RU","2":"Germany","3":"111127491","4":"14.85%"},{"1":"RU","2":"Italy","3":"28527760","4":"3.81%"},{"1":"RU","2":"Japan","3":"13309132","4":"1.78%"},{"1":"RU","2":"Poland","3":"17758264","4":"2.37%"},{"1":"RU","2":"Sweden","3":"42258173","4":"5.65%"},{"1":"RU","2":"UK","3":"61754388","4":"8.25%"},{"1":"RU","2":"USA","3":"113768741","4":"15.20%"},{"1":"RU","2":"USSR","3":"192035365","4":"25.66%"},{"1":"US","2":"China","3":"1223826","4":"4.39%"},{"1":"US","2":"Czechoslovakia","3":"1086556","4":"3.89%"},{"1":"US","2":"France","3":"2600633","4":"9.32%"},{"1":"US","2":"Germany","3":"5419138","4":"19.42%"},{"1":"US","2":"Italy","3":"848321","4":"3.04%"},{"1":"US","2":"Japan","3":"529108","4":"1.90%"},{"1":"US","2":"Poland","3":"616599","4":"2.21%"},{"1":"US","2":"Sweden","3":"1352727","4":"4.85%"},{"1":"US","2":"UK","3":"2459575","4":"8.81%"},{"1":"US","2":"USA","3":"5973354","4":"21.41%"},{"1":"US","2":"USSR","3":"5793332","4":"20.76%"},{"1":"EU","2":"China","3":"6201622","4":"3.73%"},{"1":"EU","2":"Czechoslovakia","3":"8613783","4":"5.18%"},{"1":"EU","2":"France","3":"17207491","4":"10.35%"},{"1":"EU","2":"Germany","3":"33922188","4":"20.41%"},{"1":"EU","2":"Italy","3":"6385901","4":"3.84%"},{"1":"EU","2":"Japan","3":"3142324","4":"1.89%"},{"1":"EU","2":"Poland","3":"5009117","4":"3.01%"},{"1":"EU","2":"Sweden","3":"9358523","4":"5.63%"},{"1":"EU","2":"UK","3":"13184376","4":"7.93%"},{"1":"EU","2":"USA","3":"27339457","4":"16.45%"},{"1":"EU","2":"USSR","3":"35825340","4":"21.56%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[11],"max":[11]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Interestingly, this trend does appear to somewhat be true with the exception of the SEA server. The SEA server had large concentrations in US, Russian and German tanks while they had much less games played in other tanks. However, of the 3 remaining servers, the RU server appears to show the highest percentage of Russian tanks, the US server has the highest percentage of US tanks played. The EU server is a little more complicated as it doesn’t pertain to one country. However, the EU server still has the largest number of German players although this doesn’t appear to hold true for other EU countries.</p>
+<h2 id="server-effect-on-premium-tank-games-played">Server Effect on Premium Tank Games Played</h2>
+<p>One interesting thing to check is to see whether players tend to purchase and play more premium tanks depending on the different servers. this might explain some of Wargamings marketing decisions if there are major differences between servers.</p>
+<h3 id="comparative-pie-chart-for-tank-premium-games-by-server">Comparative Pie Chart for Tank Premium Games by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="region_data_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<h3 id="table-of-tank-nationality-percentages-by-server-1">Table of Tank Nationality Percentages by Server</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Server"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Premium"],"name":[2],"type":["fct"],"align":["left"]},{"label":["Players"],"name":[3],"type":["int"],"align":["right"]},{"label":["Percent"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"SEA","2":"No","3":"56383681","4":"83%"},{"1":"SEA","2":"Yes","3":"11703747","4":"17%"},{"1":"RU","2":"No","3":"510301099","4":"68%"},{"1":"RU","2":"Yes","3":"238117656","4":"32%"},{"1":"US","2":"No","3":"18440471","4":"66%"},{"1":"US","2":"Yes","3":"9462698","4":"34%"},{"1":"EU","2":"No","3":"112804022","4":"68%"},{"1":"EU","2":"Yes","3":"53386100","4":"32%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[2],"max":[2]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Interestingly, the US, EU, and RU servers all have a near identical percentage of premium tank games played. This is remarkably similar considering how different some of these Servers can be. This indicates both similar consumer attitudes for the premium tanks and similar marketing across these servers. However, the SEA server is noticeably different from the other servers with a much lower premium tank play rate overall.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

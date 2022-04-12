@@ -67,9 +67,8 @@ tank_statstot <- tank_statstot%>%
                            "Artillery" = "SPG")) %>%
   
   mutate(Nation = fct_recode(Nation,
-                             "United States" = "Usa",
-                             "USSR" = "Ussr",
-                             "United Kingdom" = "UK")) %>%
+                             "USA" = "Usa",
+                             "USSR" = "Ussr")) %>%
   
   mutate(Premium = fct_recode(Premium,
                               "No" = "0",
@@ -360,71 +359,58 @@ tank_statsreg %>%
         axis.ticks = element_blank(),
         panel.grid  = element_blank())
 
+
+
+region_pct <- function(x, y){
+  tank_statsreg %>%
+    filter(Region == x) %>%
+    group_by({{y}}) %>%
+    summarise(hold = sum(`Total played`), Region = {{x}}) %>%
+    mutate(Percent = hold / sum(hold)) %>%
+    mutate(labels = scales::percent(Percent))
+}
+
+#Tank Preferences by Region
+
+NSEA <- region_pct("SEA", Nation)
+NRU <- region_pct("RU", Nation)
+NUS <- region_pct("US", Nation)
+NEU <- region_pct("EU", Nation)
+
+regnat <- list(NSEA, NRU, NUS, NEU)
+regpnat <- do.call(rbind, regnat)
+
+regpnat %>%
+  ggplot(aes(x = "", y = Percent, fill = Nation, group = Region)) +
+  geom_col(color="black") +
+  coord_polar(theta = "y") +
+  facet_grid(.~ Region) + theme_void() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+
+regpnat %>%
+  setNames(c("Nation","Players","Server","hold","Percent")) %>%
+  select(Server,Nation,Players,Percent) %>%
+  print()
+
 #Premium Percentage by Region
-#RU
-tank_statsreg %>%
-  filter(Region == "RU") %>%
-  group_by(Premium) %>%
-  summarise(`Premium Status` = sum(`Total played`)) %>%
-  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
-  mutate(labels = scales::percent(Percent)) %>%
-  group_by(Premium)%>%
-  ggplot(aes(x = "", y = Percent, fill = Premium)) +
-  geom_col(color="black") +
-  geom_text(aes(x=1.5, label = labels),
-            position = position_stack(vjust = 0.5)) +
-  coord_polar(theta = "y") +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        panel.grid  = element_blank())
-#US
-tank_statsreg %>%
-  filter(Region == "US") %>%
-  group_by(Premium) %>%
-  summarise(`Premium Status` = sum(`Total played`)) %>%
-  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
-  mutate(labels = scales::percent(Percent)) %>%
-  group_by(Premium)%>%
-  ggplot(aes(x = "", y = Percent, fill = Premium)) +
-  geom_col(color="black") +
-  geom_text(aes(x=1.5, label = labels),
-            position = position_stack(vjust = 0.5)) +
-  coord_polar(theta = "y") +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        panel.grid  = element_blank())
 
-#EU
-tank_statsreg %>%
-  filter(Region == "EU") %>%
-  group_by(Premium) %>%
-  summarise(`Premium Status` = sum(`Total played`)) %>%
-  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
-  mutate(labels = scales::percent(Percent)) %>%
-  group_by(Premium)%>%
-  ggplot(aes(x = "", y = Percent, fill = Premium)) +
+PSEA <- region_pct("SEA", Premium)
+PRU <- region_pct("RU", Premium)
+PUS <- region_pct("US", Premium)
+PEU <- region_pct("EU", Premium)
+
+regpre <- list(PSEA, PRU, PUS, PEU)
+regpred <- do.call(rbind, regpre)
+
+regpred %>%
+  ggplot(aes(x = "", y = Percent, fill = Premium, group = Region)) +
   geom_col(color="black") +
   geom_text(aes(x=1.5, label = labels),
             position = position_stack(vjust = 0.5)) +
   coord_polar(theta = "y") +
+  facet_grid(.~ Region) + theme_void() +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
         panel.grid  = element_blank())
-
-#SEA
-tank_statsreg %>%
-  filter(Region == "SEA") %>%
-  group_by(Premium) %>%
-  summarise(`Premium Status` = sum(`Total played`)) %>%
-  mutate(Percent = `Premium Status` / sum(`Premium Status`)) %>%
-  mutate(labels = scales::percent(Percent)) %>%
-  group_by(Premium)%>%
-  ggplot(aes(x = "", y = Percent, fill = Premium)) +
-  geom_col(color="black") +
-  geom_text(aes(x=1.5, label = labels),
-            position = position_stack(vjust = 0.5)) +
-  coord_polar(theta = "y") +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        panel.grid  = element_blank())
-
