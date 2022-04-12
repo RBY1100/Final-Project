@@ -31,11 +31,11 @@ This analysis will be primarily focused on the individual winrates for each tank
 
 World of Tanks is a massively multiplayer online game created by Wargaming. Released August 12, 2010 it continues to support relatively strong player counts. In World of Tanks, players take control of a single armored tank of their choice, and is placed into a battle on a random map. The player has control over the vehicle's movement, firing, and can communicate with allied players and all the other players through typed or voice chat. A simple random match is won either by destroying all vehicles on the opposing team or capturing the opposing team's base by staying in it for long enough without being damaged by another tank. 
 
-Video demonstrating World of Tanks gameplay:
-
 ```{r}
 embed_url("https://www.youtube.com/watch?v=68orlULGqIA")
 ```
+
+Video demonstrating World of Tanks gameplay
 
 ### The Tanks in the Game
 
