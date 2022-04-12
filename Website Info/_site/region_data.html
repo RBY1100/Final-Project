@@ -2035,6 +2035,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+  <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2100,13 +2102,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <h3 id="table-of-plays-by-server">Table of Plays by Server</h3>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 4 x 3
-  Region `Total Plays` Percent
-  &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;  
-1 EU         166190122 16.4%  
-2 RU         748418755 74.1%  
-3 SEA         68087428 6.7%   
-4 US          27903169 2.8%   </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Region"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Total Plays"],"name":[2],"type":["int"],"align":["right"]},{"label":["Percent"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"EU","2":"166190122","3":"16.4%"},{"1":"RU","2":"748418755","3":"74.1%"},{"1":"SEA","2":"68087428","3":"6.7%"},{"1":"US","2":"27903169","3":"2.8%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <p>In general, Russia and Eastern Europe are where the vast majority player base World of Tanks games are played. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. South East Asia also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with the Russia over the Ukraine invasion considering the majority of their business appears to be reliant on Russian and Eastern European players.</p>
 <h2 id="server-effect-on-winrate">Server Effect on Winrate</h2>
@@ -2117,13 +2117,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <h3 id="mean-winrate-by-server-played">Mean Winrate by Server Played</h3>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 4 x 3
-  Region `Mean Percent by Region Played` `Total Number of Tanks`
-  &lt;chr&gt;                            &lt;dbl&gt;                   &lt;int&gt;
-1 EU                                49.2                     700
-2 RU                                49.2                     702
-3 SEA                               49.4                     707
-4 US                                48.9                     702</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Region"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean Percent by Region Played"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Total Number of Tanks"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"EU","2":"49.21279","3":"700"},{"1":"RU","2":"49.23153","3":"702"},{"1":"SEA","2":"49.36320","3":"707"},{"1":"US","2":"48.86113","3":"702"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <h3 id="anova-test-on-server-played">ANOVA Test on Server Played</h3>
 <div class="layout-chunk" data-layout="l-body">
@@ -2172,7 +2170,7 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 <p><img src="region_data_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
 </div>
 <p>Interestingly, the US, EU, and RU servers all have a near identical percentage of premium tank games played. This is remarkably similar considering how different some of these regions can be. This indicates both similar consumer attitudes for the premium tanks and similar marketing across these servers. However, the SEA server is noticeably different from the other servers with a much lower premium tank play rate overall.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

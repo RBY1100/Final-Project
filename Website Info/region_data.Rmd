@@ -90,7 +90,8 @@ tank_statsreg %>%
 tank_statsreg %>%
   group_by(Region) %>%
   summarise(`Total Plays` = sum(`Total played`)) %>%
-  mutate(Percent = scales::percent(`Total Plays` / sum(`Total Plays`)))
+  mutate(Percent = scales::percent(`Total Plays` / sum(`Total Plays`))) %>%
+  paged_table()
 ```
 
 In general, Russia and Eastern Europe are where the vast majority player base World of Tanks games are played. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. South East Asia also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with the Russia over the Ukraine invasion considering the majority of their business appears to be reliant on Russian and Eastern European players.
@@ -110,7 +111,8 @@ tank_statsreg %>%
 ```{r}
 tank_statsreg %>%
   group_by(Region) %>%
-  summarise("Mean Percent by Region Played" = mean(Winrate), "Total Number of Tanks" = length(Winrate))
+  summarise("Mean Percent by Region Played" = mean(Winrate), "Total Number of Tanks" = length(Winrate)) %>%
+  paged_table()
 ```
 
 ### ANOVA Test on Server Played

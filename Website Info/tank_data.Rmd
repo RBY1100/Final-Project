@@ -111,7 +111,8 @@ tank_statstot %>%
 ```{r}
 tank_statstot %>%
   group_by(Type) %>%
-  summarise("Mean Win Rate by Tank Type" = mean(`Win Rate %`), "Total Number of Type" = length(`Win Rate %`))
+  summarise("Mean Win Rate by Tank Type" = mean(`Win Rate %`), "Total Number of Type" = length(`Win Rate %`)) %>%
+  paged_table()
 ```
 
 ### ANOVA Test on Tank Type
@@ -157,7 +158,8 @@ tank_statstot %>%
 ```{r}
 tank_statstot %>%
   group_by(Tier) %>%
-  summarise("Mean Win Rate by Tank Tier" = mean(`Win Rate %`), "Total Number of Tier" = length(`Win Rate %`))
+  summarise("Mean Win Rate by Tank Tier" = mean(`Win Rate %`), "Total Number of Tier" = length(`Win Rate %`)) %>%
+  paged_table()
 ```
 
 ### ANOVA Test on Tank Tier
@@ -204,7 +206,8 @@ tank_statstot %>%
 ```{r}
 tank_statstot %>%
   group_by(Nation) %>%
-  summarise("Mean Win Rate by Tank Nation" = mean(`Win Rate %`), "Total Number of Nation" = length(`Win Rate %`))
+  summarise("Mean Win Rate by Tank Nation" = mean(`Win Rate %`), "Total Number of Nation" = length(`Win Rate %`)) %>%
+  paged_table(options = list(rows.print = 11))
 ```
 
 ### ANOVA Test on Tank Nation
@@ -251,7 +254,8 @@ tank_statstot %>%
 ```{r}
 tank_statstot %>%
   group_by(Premium) %>%
-  summarise("Mean Win Rate by Premium Status" = mean(`Win Rate %`), "Total Number of Premium/Non-Premiums" = length(`Win Rate %`))
+  summarise("Mean Win Rate by Premium Status" = mean(`Win Rate %`), "Total Number of Premium/Non-Premiums" = length(`Win Rate %`)) %>%
+  paged_table()
 ```
 
 ### ANOVA Test on Premium Status
@@ -326,7 +330,8 @@ tank_statstot %>%
 ```{r}
 tank_statstot %>%
   group_by(`Yoh Tank`) %>%
-  summarise("Mean Percent by Yoh Tank Status" = mean(`Win Rate %`), "Total Number in Group" = length(`Win Rate %`))
+  summarise("Mean Percent by Yoh Tank Status" = mean(`Win Rate %`), "Total Number in Group" = length(`Win Rate %`)) %>%
+  paged_table()
 ```
 
 ### Yoh Tank ANOVA Test
