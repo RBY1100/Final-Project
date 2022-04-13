@@ -1,0 +1,521 @@
+---
+title: "STA 518 Final Reflection"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rvest)
+library(scales)
+library(purrr)
+library(stats)
+library(rmarkdown)
+
+#Writes a function to scrape data from the different servers creating one dataset for server data and one for tank data
+wotscrapewr <- function(x,y){
+  tableda <- x %>%
+    read_html() %>%
+    html_nodes("table#stat_veh_all4")  %>% 
+    html_table() %>% 
+    .[[1]] %>%
+    setNames(c('Name','Tier','Type','Nation',paste('Total Played',y, sep=" "),paste('Wins',y, sep=" "), paste('Win %',y, sep=" "),paste('Unique Players',y, sep=" "), 'Region'))
+  }
+
+wotscrapereg <- function(x,y){
+  tableda <- x %>%
+    read_html() %>%
+    html_nodes("table#stat_veh_all4")  %>% 
+    html_table() %>% 
+    .[[1]] %>%
+    mutate(Server=y, Winrate = Win/`Total played`*100) %>%
+    select(-`Win %`)
+}
+
+
+#Creates datasets and join together for analyzing winrates across the board
+wot_tableeu <- wotscrapewr("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus <- wotscrapewr("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru <- wotscrapewr("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea <- wotscrapewr("https://wot-news.com/stat/server/sea/norm/en/", "SEA")
+other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv") %>%
+  select("Name", "Premium")
+
+wot_list <- list(wot_tableeu, wot_tableus, wot_tableru, wot_tablesea, other_info)
+tank_statstot <- wot_list %>% reduce(inner_join, by="Name")
+
+wot_tableeu2 <- wotscrapereg("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus2 <- wotscrapereg("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru2 <- wotscrapereg("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea2 <- wotscrapereg("https://wot-news.com/stat/server/sea/norm/en/", "SEA") 
+
+wot_list2 <- list(wot_tableeu2, wot_tableus2, wot_tableru2, wot_tablesea2)
+tank_statsreg <- do.call(rbind, wot_list2) %>%
+  filter(`Total played` > 160) %>%
+  inner_join(other_info) %>%
+  na.omit()
+tank_statsreg$Premium <- as.character(tank_statsreg$Premium)
+
+tank_statsreg$`Tier` <- as.character(tank_statsreg$`Tier`) %>%
+factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+
+tank_statsreg <- tank_statsreg %>%
+  mutate(Premium = fct_recode(Premium,
+                              "No" = "0",
+                              "Yes" = "1"))
+
+#DICE
+
+
+library(random)
+
+#For a normal roll with one dice
+
+normal <- function(x,y){
+  Normal_2d <- 1:1000; Normal_2d
+  for(l in 1:1000){
+    sumofall2d <- 1:1000; sumofall2d
+    for(i in 1:1000){
+      sum2d <- 0
+      roll2d <- sample(1:x, y, replace=TRUE)
+      sum2d <- sum(roll2d)
+      sumofall2d[i] <- sum2d 
+    }
+    Normal_2d[l] <- sum(sumofall2d)
+  }
+  return(Normal_2d)
+}
+
+#For rolls with with the GWF perk with one dice
+
+gwf_rolls  <- function(x){
+With_GWF <- 1:1000; With_GWF
+for(l in 1:1000){
+  sum <- 0
+  roll <- sample(1:x, 1000, replace=TRUE)
+  for(i in 1:1000){
+    if(roll[i]<3){
+      roll[i] <- sample(1:x, 1, replace=TRUE)
+    }
+  }  
+  sum <- sum(roll)
+  With_GWF[l] <- sum
+}
+return(With_GWF)
+}
+
+#For 2 dice with GWF rules:
+
+gwf_2dice <- function(x){
+totalroll <- 1:1000; totalroll
+With_GWF_2d <- 1:1000; With_GWF_2d
+for(l in 1:1000){
+  for(i in 1:1000){
+    roll2d <-sample(1:x, 2, replace=TRUE)
+    if(roll2d[1]<3){
+      roll2d[1] <-sample(1:x, 1, replace=TRUE)
+    }
+    if(roll2d[2]<3){
+        roll2d[2] <-sample(1:x, 1, replace=TRUE)
+    }
+    sumroll <- sum(roll2d)
+    totalroll[i] <- sumroll
+  }
+    finalroll <- sum(totalroll)
+    With_GWF_2d[l] <- finalroll
+}
+return(With_GWF_2d)
+}
+
+Normal_d6 <- normal(6,1)
+With_GWF_d6 <- gwf_rolls(6)
+Normal_d8 <-normal(8,1)
+With_GWF_d8 <-gwf_rolls(8)
+Normal_d10 <-normal(10,1)
+With_GWF_d10 <-gwf_rolls(10)
+Normal_2d6 <- normal(6,2)
+With_GWF_2d6 <- gwf_2dice(6)
+
+#Arrange and Plot
+dataframe <- data.frame(Normal_d6, With_GWF_d6, Normal_d8, With_GWF_d8, Normal_d10, With_GWF_d10, Normal_2d6, With_GWF_2d6)
+final <- dataframe %>% 
+  pivot_longer(
+    cols = c(Normal_d6, With_GWF_d6, Normal_d8, With_GWF_d8, Normal_d10, With_GWF_d10, Normal_2d6, With_GWF_2d6),
+    names_to = "Roll_Type",
+    values_to = "Sum_of_Rolls"
+  )
+final$Roll_Type <- factor(final$Roll_Type , levels=c("Normal_d6", "With_GWF_d6", "Normal_d8", "With_GWF_d8", "Normal_d10", "With_GWF_d10", "Normal_2d6", "With_GWF_2d6"))
+
+final %>%
+  ggplot(mapping=aes(x=Sum_of_Rolls, by=Roll_Type, color=Roll_Type)) +
+  geom_boxplot()
+
+summarize(final, mean(Normal_d6), mean(With_GWF_d6), mean(Normal_d8), mean(With_GWF_d8), mean(Normal_d10), mean(With_GWF_d10), mean(Normal_2d6), mean(With_GWF_2d6))
+final %>%
+  summarize(d6improvement=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6),d8improvement=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8),d10improvement=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10), d2d6improvement=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6), d6dmgincrease=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6)*6,d8dmgincrease=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8)*8,d10dmgincrease=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10)*10, d2d6dmgincrease=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6)*12)
+
+```
+
+## Question 1: URL for Final Project
+
+Github Code and Website Respository: https://github.com/Robert-Bilyk/Final-Project
+
+Website Link: https://robert-bilyk-sta518project.netlify.app/
+
+## Question 2: Did you Work with a Group?
+
+I worked alone on this project.
+
+## Question 3: Demonstration of Skills Learned
+
+To demonstrate what I have learned, I will mainly reference 2 projects I worked on this semester. From these projects I will pull specific examples of the skills I employ to answer the questions the projects pose.
+
+* The first project is the final project that I submitted. In that project I scraped data from the game World of Tanks for each individual tank and how well each individual tank performs. This was all done to see if there were any noticeable differences between the different playable nations, region the game is played on, tank tiers, and lastly the effect of premium tanks on the game.
+* The second project was done to answer a question about dice rolling and what strategy is superior. In a game called dungeons and dragons there are two options you can choose. When you hit an enemy, you will roll a specific die to determine how much damage you deal. In the first option you can choose to simply take a flat +2 added to any damage roll. The second option, you can reroll any die that is a 2 or 1 but you have to take the second roll. To determine which of these was better I created a simulation for all of the different die combinations and simulated both options to see what choice appears to be better. I ran 1000 dice added them up and then repeated that 1000 times to get an adequtely sized dataset.
+
+### Import, manage, and clean data:
+
+For the World of Tanks project, the data I acquired was pulled from the Wot-News website. To do so, I wrote a function to pull the data. There were 4 different servers that I needed data from so I ran the function 4 times and then compiled them into a list. Finally, I used rbind to stack the tables on top of each other into a single data set. Note that I also imported "other_info" which included premium tank status as I had to manually pull that data as there wasn't any website that I could scrape this data from.
+
+I also created a second data set that's grouped on the specific tanks rather than the servers using the code below. This time, I combined them horizontally using the reduce() function. The code used here was almost identical to the server data set.
+
+```{r eval=FALSE}
+wotscrapewr <- function(x,y){
+  tableda <- x %>%
+    read_html() %>%
+    html_nodes("table#stat_veh_all4")  %>% 
+    html_table() %>% 
+    .[[1]] %>%
+    setNames(c('Name','Tier','Type','Nation',paste('Total Played',y, sep=" "),paste('Wins',y, sep=" "), paste('Win %',y, sep=" "),paste('Unique Players',y, sep=" "), 'Region'))
+  }
+
+wot_tableeu <- wotscrapewr("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus <- wotscrapewr("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru <- wotscrapewr("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea <- wotscrapewr("https://wot-news.com/stat/server/sea/norm/en/", "SEA")
+other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv") %>%
+  select("Name", "Premium")
+
+wot_list <- list(wot_tableeu, wot_tableus, wot_tableru, wot_tablesea, other_info)
+
+tank_statstot <- wot_list %>% reduce(inner_join, by="Name")
+```
+
+After creating these data sets, I did a lot of work to make them presentable for graphs and tables. This includes:
+
+* Removing Unnessesary Variables and Renaming Remaining ones
+
+```{r eval=FALSE}
+
+tank_statstot <- tank_statstot %>%
+  select(-ends_with(".y"),-ends_with("x.x")) %>%
+  rename("Tier"=`Tier.x`, "Nation"=`Nation.x`, "Type"=`Type.x`)
+
+```
+
+* Adding up all the server together and calculating the average win rate for each tank globally
+
+```{r eval=FALSE}
+
+tank_statstot <- tank_statstot %>%
+  mutate("Total Played" = `Total Played US` + `Total Played EU` + `Total Played SEA` + `Total Played RU`, 
+         "Total Wins" = `Wins US` + `Wins EU` + `Wins SEA` + `Wins RU`, "Total Unique Players" = 
+           `Unique Players US` + `Unique Players EU` + `Unique Players SEA` + `Unique Players RU`, 
+         "Win Rate %" = (`Total Wins`/`Total Played`)*100)
+```
+
+* Removing any duplicated variables and removing all tanks with less than 6,000 total battles
+
+```{r eval=FALSE}
+
+tank_statstot <- tank_statstot[!duplicated(tank_statstot$Name),] %>%
+  filter(`Total Played` > 6000)
+```
+
+* Changing variables to character variables and reordering them for better visuals in the future
+
+```{r eval=FALSE}
+
+tank_statstot$`Tier` <- as.character(tank_statstot$`Tier`) %>%
+  factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+tank_statstot$`Premium` <- as.character(tank_statstot$`Premium`)
+```
+
+* Renaming the responses for certain categories for better visuals 
+
+```{r eval=FALSE}
+
+tank_statstot <- tank_statstot%>%
+  mutate(Type = fct_recode(Type,
+                           "Medium Tank" = "Medium Tanks",
+                           "Heavy Tank" = "Heavy Tanks",
+                           "Light Tank" = "Light Tanks",
+                           "Tank Destroyer" = "TD",
+                           "Artillery" = "SPG")) %>%
+  
+  mutate(Nation = fct_recode(Nation,
+                             "USA" = "Usa",
+                             "USSR" = "Ussr")) %>%
+  
+  mutate(Premium = fct_recode(Premium,
+                              "No" = "0",
+                              "Yes" = "1"))
+```
+
+All of this created the data sets shown below that could easily be called to create tables and graphs for the different servers and the different tanks.
+
+#### Data Set for Tanks
+```{r echo=FALSE}
+tank_statstot
+```
+
+#### Data Set for Servers
+
+```{r echo=FALSE}
+tank_statsreg 
+```
+
+Lastly, using the dice project functions I created (will be shown later in this reflection), I needed up with this data set which wasn't very good for visuals so I pivoted it.
+
+```{r echo=FALSE}
+dataframe %>%
+  select(-Normal_2d6, -With_GWF_2d6) %>%
+  head(10)
+```
+
+```{r eval=FALSE}
+final <- dataframe %>% 
+  pivot_longer(
+    cols = c(Normal_d6, With_GWF_d6, Normal_d8, With_GWF_d8, Normal_d10, With_GWF_d10, Normal_2d6, With_GWF_2d6),
+    names_to = "Roll_Type",
+    values_to = "Sum_of_Rolls"
+  )
+```
+
+This changed the data set to the following so visuals could be easily created.
+
+```{r echo=FALSE}
+final %>%
+  head(10)
+```
+
+### Creating Visuals and Numerical Summaries
+```{r include=FALSE}
+wot_tableeu <- wotscrapewr("https://wot-news.com/stat/server/eu/norm/en/", "EU")
+wot_tableus <- wotscrapewr("https://wot-news.com/stat/server/us/norm/en/", "US") 
+wot_tableru <- wotscrapewr("https://wot-news.com/stat/server/ru/norm/en/", "RU") 
+wot_tablesea <- wotscrapewr("https://wot-news.com/stat/server/sea/norm/en/", "SEA")
+other_info <- read_csv("~/STA 518/Final-Project/tank_stats.csv") %>%
+  select("Name", "Premium")
+
+wot_list <- list(wot_tableeu, wot_tableus, wot_tableru, wot_tablesea, other_info)
+tank_statstot <- wot_list %>% reduce(inner_join, by="Name")
+
+#Remove Unnessesary Variables and Rename Remaining ones
+tank_statstot <- tank_statstot %>%
+  select(-ends_with(".y"),-ends_with("x.x")) %>%
+  rename("Tier"=`Tier.x`, "Nation"=`Nation.x`, "Type"=`Type.x`)
+
+
+#Get Values for the total World of Tanks player base by adding up all the servers
+tank_statstot <- tank_statstot %>%
+  mutate("Total Played" = `Total Played US` + `Total Played EU` + `Total Played SEA` + `Total Played RU`, "Total Wins" = `Wins US` + `Wins EU` + `Wins SEA` + `Wins RU`, "Total Unique Players" = 
+           `Unique Players US` + `Unique Players EU` + `Unique Players SEA` + `Unique Players RU`, "Win Rate %" = (`Total Wins`/`Total Played`)*100)
+
+#Filter out Repeat Values and Low Observation Values (tanks in beta testing)
+tank_statstot <- tank_statstot[!duplicated(tank_statstot$Name),] %>%
+  filter(`Total Played` > 6000)
+
+#Convert "Tier" and "Premium" into a character values and order them 
+tank_statstot$`Tier` <- as.character(tank_statstot$`Tier`) %>%
+  factor(levels=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+tank_statstot$`Premium` <- as.character(tank_statstot$`Premium`)
+
+#Rename Premium
+tank_statstot <- tank_statstot%>%
+  mutate(Type = fct_recode(Type,
+                           "Medium Tank" = "Medium Tanks",
+                           "Heavy Tank" = "Heavy Tanks",
+                           "Light Tank" = "Light Tanks",
+                           "Tank Destroyer" = "TD",
+                           "Artillery" = "SPG")) %>%
+  
+  mutate(Nation = fct_recode(Nation,
+                             "USA" = "Usa",
+                             "USSR" = "Ussr")) %>%
+  
+  mutate(Premium = fct_recode(Premium,
+                              "No" = "0",
+                              "Yes" = "1"))
+
+```
+
+I created numerous summaries and visuals for the final project. Here are a few examples.
+
+### Comparative Boxplots
+
+```{r echo=TRUE}
+tank_statstot %>%
+  ggplot(mapping=aes(x=`Win Rate %`, group=Tier, color=Tier)) +
+  geom_boxplot()
+```
+
+### Numerical Summaries of Means
+
+```{r echo=TRUE}
+tank_statstot %>%
+  group_by(Tier) %>%
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`), "Total Number of Tier" = length(`Win Rate %`))
+```
+
+### ANOVA Tests
+
+```{r echo=TRUE}
+aov(`Win Rate %` ~ Tier, data = tank_statstot) %>%
+  summary()
+```
+
+### Pie Charts
+
+```{r}
+tank_statstot %>%
+  group_by(Type) %>%
+  summarise(`Type Played` = sum(`Total Played`)) %>%
+  mutate(Percent = `Type Played` / sum(`Type Played`)) %>%
+  mutate(labels = scales::percent(Percent)) %>%
+  group_by(Type)%>%
+  ggplot(aes(x = "", y = Percent, fill = Type)) +
+  geom_col(color="black") +
+  geom_text(aes(x=1.2, label = labels),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+### Comparative Pie Charts
+
+```{r}
+Server_pct <- function(x, y){
+  tank_statsreg %>%
+    filter(Server == x) %>%
+    group_by({{y}}) %>%
+    summarise(hold = sum(`Total played`), Server = {{x}}) %>%
+    mutate(Percent = hold / sum(hold)) %>%
+    mutate(labels = scales::percent(Percent))
+}
+
+NSEA <- Server_pct("SEA", Nation)
+NRU <- Server_pct("RU", Nation)
+NUS <- Server_pct("US", Nation)
+NEU <- Server_pct("EU", Nation)
+
+regnat <- list(NSEA, NRU, NUS, NEU)
+regpnat <- do.call(rbind, regnat)
+
+regpnat %>%
+  ggplot(aes(x = "", y = Percent, fill = Nation, group = Server)) +
+  geom_col(color="black") +
+  coord_polar(theta = "y") +
+  facet_grid(.~ Server) + theme_void() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+```
+
+### Write R Programs for Similations w/ Randomization Based Expiriments
+
+Moving back to the dice project, I used the following code to create a function that first simply rolled a certain number of dice that had a certain number of sides. This is because in D&D many different sided die are used.
+
+```{r, eval=FALSE}
+normal <- function(x,y){
+  Normal_2d <- 1:1000; Normal_2d
+  for(l in 1:1000){
+    sumofall2d <- 1:1000; sumofall2d
+    for(i in 1:1000){
+      sum2d <- 0
+      roll2d <- sample(1:x, y, replace=TRUE)
+      sum2d <- sum(roll2d)
+      sumofall2d[i] <- sum2d 
+    }
+    Normal_2d[l] <- sum(sumofall2d)
+  }
+  return(Normal_2d)
+}
+```
+
+Then I wrote a code to reroll any 1's and 2's and take the new roll. I wrote seperate functions for one and two die.
+
+#### 1 Dice
+
+```{r}
+
+gwf_rolls  <- function(x){
+With_GWF <- 1:1000; With_GWF
+for(l in 1:1000){
+  sum <- 0
+  roll <- sample(1:x, 1000, replace=TRUE)
+  for(i in 1:1000){
+    if(roll[i]<3){
+      roll[i] <- sample(1:x, 1, replace=TRUE)
+    }
+  }  
+  sum <- sum(roll)
+  With_GWF[l] <- sum
+}
+return(With_GWF)
+}
+```
+
+#### 2 Die
+
+```{r}
+gwf_2dice <- function(x){
+totalroll <- 1:1000; totalroll
+With_GWF_2d <- 1:1000; With_GWF_2d
+for(l in 1:1000){
+  for(i in 1:1000){
+    roll2d <-sample(1:x, 2, replace=TRUE)
+    if(roll2d[1]<3){
+      roll2d[1] <-sample(1:x, 1, replace=TRUE)
+    }
+    if(roll2d[2]<3){
+        roll2d[2] <-sample(1:x, 1, replace=TRUE)
+    }
+    sumroll <- sum(roll2d)
+    totalroll[i] <- sumroll
+  }
+    finalroll <- sum(totalroll)
+    With_GWF_2d[l] <- finalroll
+}
+return(With_GWF_2d)
+}
+```
+
+With these functions written I ran them for all of the different dice combinations that would be encountered. Putting these all into a dataframe and pivoting it as shown earlier, I was able to create the following box plot and table describing the average damage improvement from taking option 2.
+
+#### Boxplot of Different Dice Combinations
+
+```{r echo=FALSE}
+dataframe %>%
+  ggplot(mapping=aes(x=Sum_of_Rolls, by=Roll_Type, color=Roll_Type)) +
+  geom_boxplot()
+```
+
+#### Table of Improvement from Picking Option 2 
+
+```{r echo=FALSE}
+summarize(final, mean(Normal_d6), mean(With_GWF_d6), mean(Normal_d8), mean(With_GWF_d8), mean(Normal_d10), mean(With_GWF_d10), mean(Normal_2d6), mean(With_GWF_2d6))
+final %>%
+  summarize(d6improvement=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6),d8improvement=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8),d10improvement=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10), d2d6improvement=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6), d6dmgincrease=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6)*6,d8dmgincrease=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8)*8,d10dmgincrease=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10)*10, d2d6dmgincrease=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6)*12)
+```
+
+## Question 4: Grade I Think I Deserve
+
+I would overall give myself an A. I am very confident in all of the topics we covered and I know that I can adequately accomplish any tasks related to modifying data and displaying it. My biggest issue is forgetting the necessary syntax with different R commands. However, using the ? in R and using online resources mostly covers any major issues I have on that front.
+
+## Question 5: Thoughts or Reflections
+
+My personal preference is to have more structure to classes and actually having grades but this class was certainly effective in teaching me the necessary skills needed to code in R. I don’t have any major criticisms with how the class is run.
+
