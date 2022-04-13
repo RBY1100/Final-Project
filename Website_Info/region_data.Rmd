@@ -61,11 +61,10 @@ tank_statsreg <- tank_statsreg%>%
 
 ## World of Tanks Different Servers
 
-World of Tanks is a global game and thus runs on 4 major distinct servers. The US server encompasses the North American Server, the EU server covers most of the EU Server, the RU servers covers primarily Russia but also Eastern Europe, the SEA covers most of Eastern Asia. In general the EU, US, and RU servers are run fairly similar when it comes to new updates and tanks released. The SEA servers are run by a seperate company which has a degree of freedom when it comes to new content added. It is important to note that due to the ongoing conflict in Ukraine, Wargaming has effectively exited Russia and Belarus and handed control of the RU server to a Belorussian company so the status of the RU server may change in the near future. There is also a South American and Oceania server however, those servers contain so few people, it is typically not tracked and thus incredibly difficult to find data on therefore, those servers are not included in this study.
-
+World of Tanks is a global game and thus runs on 4 major distinct servers. The US server encompasses the North American region, the EU server covers most of the EU region, the RU servers covers primarily Russia but also Eastern Europe, the SEA covers most of Eastern Asia. In general the EU, US, and RU servers are run fairly similarly when it comes to new updates and tanks released. The SEA servers are run by a seperate company which has a degree of freedom when it comes to new content added. It is important to note that due to the ongoing conflict in Ukraine, Wargaming has effectively exited Russia and Belarus and handed control of the RU server to a Belorussian company so the status of the RU server may change in the near future. There is also a South American and Oceania server however, those servers contain so few people, it is typically not tracked and thus incredibly difficult to find data on. As a result, those servers are not included in this study.
 ## The World of Tanks Playerbase
 
-When calculating the number of play, a "play" is added to the count whenever a player hits the "play" button in the lobby. Because there are usually 30 players in a game this means that a single game will typically add 30 counts to the "play" count (this is approximate as there are bots and games with less than 30 players meaning that there are many games with less than 30 players). As of now: 
+When calculating the number of plays, a "play" is added to the count whenever a player hits the "play" button in the lobby. Because there are usually 30 players in a game this means that a single game will typically add 30 counts to the "play" count (this is approximate as there are bots and games with less than 30 players meaning that there are many games with less than 30 players). As of now: 
 
 ```{r}
 total <- tank_statsreg %>%
@@ -105,11 +104,11 @@ tank_statsreg %>%
   paged_table()
 ```
 
-In general, Russia and Eastern Europe are where the vast majority player base World of Tanks games are played. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. The SEA server also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with the Russia over the Ukraine invasion considering the majority of their business appears to be reliant on Russian and Eastern European players.
+In general, Russia and Eastern Europe are where the vast majority of players reside. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. The SEA server also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with Russia over the war in Ukraine considering the majority of their business appears to be reliant on Russian and Eastern European players.
 
 ## Server Effect on Win Rate
 
-Since each server is separate from each other and it isn't convenient for player from different Servers to switch servers, it might be interesting to compare player performance differences between the servers. Is there a difference in win rate based on the server played on?
+Since each server is separate from each other and it isn't convenient for players from different servers to switch servers, it might be interesting to compare player performance differences between the servers. Is there a difference in win rate based on the server played on?
 
 ### Boxplot of Win Rate by Server Played
 ```{r}
@@ -133,7 +132,7 @@ aov(Winrate ~ Server, data = tank_statsreg) %>%
 
 ```
 
-Looking at the boxplot for win rate by server, it is hard to tell any differences in means as the there are many outliers that make it hard to see differences that aren't major. Looking at the table of means however, there does appear to be somewhat of a difference between the servers. It appears that the US players have a worse win rate overall than the other servers while SEA players have the best win rate overall. Performing an ANOVA test on the variable Server give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on players win rate.
+Looking at the boxplot for win rate by server, it is hard to tell any differences in means as there are many outliers that make it hard to see differences that aren't major. Looking at the table of means however, there does appear to be somewhat of a difference between the servers. It appears that the US players have a worse win rate overall than the other servers while SEA players have the best win rate overall. Performing an ANOVA test on the variable server gives us a p-value that does appear to indicate that the server played on does seem to have a statistically significant effect on players win rate.
 
 ## Server Effect on Tank Nationality Choices
 
@@ -184,7 +183,7 @@ Interestingly, this trend does appear to somewhat be true with the exception of 
 
 ## Server Effect on Premium Tank Games Played
 
-One interesting thing to check is to see whether players tend to purchase and play more premium tanks depending on the different servers. this might explain some of Wargamings marketing decisions if there are major differences between servers.
+One interesting thing to check is to see whether players tend to purchase and play more premium tanks depending on the different servers. This might explain some of Wargamings marketing decisions if there are major differences between servers.
 
 ### Comparative Pie Chart for Tank Premium Games by Server
 
@@ -218,5 +217,5 @@ regpred %>%
   paged_table(options = list(rows.print = 2))
 ```
 
-Interestingly, the US, EU, and RU servers all have a near identical percentage of premium tank games played. This is remarkably similar considering how different some of these Servers can be. This indicates both similar consumer attitudes for the premium tanks and similar marketing across these servers. However, the SEA server is noticeably different from the other servers with a much lower premium tank play rate overall. 
+Interestingly, the US, EU, and RU servers all have a near identical percentage of premium tank games played. This is remarkably similar considering how different some of these regions can be. This indicates both similar consumer attitudes for the premium tanks and similar marketing across these servers. However, the SEA server is noticeably different from the other servers with a much lower premium tank play rate overall. 
 

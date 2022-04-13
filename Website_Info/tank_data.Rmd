@@ -76,7 +76,7 @@ World of Tanks contains more than 600 different tanks. All of them have differen
 
 ### Tank Type
 
-World of Tanks separates their tanks into 5 different categories; light tanks, medium tanks, heavy tanks, tank destroyers, and artillery. In general, these tanks all fit into a different niche. Light tanks are the scouts for the team, running ahead to spot enemy tanks for their teamate to shoot at. Medium tanks are you're jack-of-all trades class, being decent in most aspects but not spectacular. Heavy utilize their heavy armor to take and hold the most important parts of the map. Tank destroyers sit behind using their powerful guns to snipe enemies from a distance. Artillery are the support class, specializing in removing dug in opponents from an extreme range. Looking at the data, are any of these niches appear to be more influential than others?
+World of Tanks separates their tanks into 5 different categories; light tanks, medium tanks, heavy tanks, tank destroyers, and artillery. In general, these tanks all fit into a different niche. Light tanks are the scouts for the team, running ahead to spot enemy tanks for their teammates to shoot at. Medium tanks are your jack-of-all trades class, being decent in most aspects but not spectacular. Heavy utilize their heavy armor to take and hold the most important parts of the map. Tank destroyers sit behind using their powerful guns to snipe enemies from a distance. Artillery are the support class, specializing in removing dug in opponents from an extreme range. Looking at the data, do any of these niches appear to be more influential than others?
 
 ### Current Percentage Breakdown for Tank Type
 
@@ -97,7 +97,7 @@ tank_statstot %>%
         panel.grid  = element_blank())
 ```
 
-At the moment, the player base appears to be preferring playing heavy tanks, medium tanks, and tank destroyers the most. This does make sense considering light tanks are somewhat difficult to play and artillery is generally seen as boring to play by much of the player base.
+At the moment, the player base appears to prefer playing heavy tanks, medium tanks, and tank destroyers the most. This does make sense considering light tanks are somewhat difficult to play and artillery is generally seen as boring to play by much of the player base.
 
 ### Boxplot of Tank Type by Win Rate
 ```{r}
@@ -123,7 +123,7 @@ Simply looking at the comparative boxplots and observing the mean win rate for e
 
 ## Tank Tier 
 
-World of Tanks uses a matchmaker system to make for balanced teams every match. Based on this, they have a built in tier system with each tank attached to a certain tier based on how powerful that tank is. In this case, tier 1 includes the weakest tanks in the game while tier 10 includes the most powerful tanks. World of Tanks has a built in matchmaker that will make sure there are an equal number of tank from each tier on each team. Different tiers can be matched up with tank +/- 2 tier from their own. So for example, a tier 5 tank oculd be matched with tier 3, 4, 5, 6, and 7 tanks although there will always be an equal number of tier 5's on each team. Are there any differences between the win rates of different tiers? 
+World of Tanks uses a matchmaker system to create balanced teams every match. Based on this, they have a built in tier system with each tank attached to a certain tier based on how powerful that tank is. In this case, tier 1 includes the weakest tanks in the game while tier 10 includes the most powerful tanks. World of Tanks has a built in matchmaker that will make sure there are an equal number of tanks from each tier on each team. Different tiers can be matched up with tank +/- 2 tiers from their own. So for example, a tier 5 tank oculd be matched with tier 3, 4, 5, 6, and 7 tanks although there will always be an equal number of tier 5's on each team. Are there any differences between the win rates of different tiers? 
 
 ### Current Percentage Breakdown for Tank Tier
 
@@ -144,7 +144,7 @@ tank_statstot %>%
         panel.grid  = element_blank())
 ```
 
-It appears that about 2/3 games played are at tier 8, 9 and 10. This makes sense as they require the most work to get to and thus take the most time to get the XP needed to move up to the next tier. On top of this, many players enjoy playing at tier 10 because they are the most powerful they can get. Tier 8 makes sense because it is the tier of the most popular premium tanks, tier 8 also has the most tanks out of any tier in the game.
+It appears that about 2/3 games played are at tier 8, 9 and 10. This makes sense as they require the most work to get to and thus take the most time to get the XP needed to move up to the next tier. On top of this, many players enjoy playing at tier 10 because they are the most powerful they can get. Tier 8 high player count also makes sense because it contains the most popular premium tanks, tier 8 also has the most tanks out of any tier in the game.
 
 ### Boxplot of Tank Tier by Win Rate
 ```{r}
@@ -167,7 +167,7 @@ aov(`Win Rate %` ~ Tier, data = tank_statstot) %>%
   summary()
 ```
 
-Looking at the boxplot, the different tiers appear to be fairly even in win rate with the exception of tier 1 which is significantly lower overall. Tier 8 also appears somewhat smaller but less so than tier 1. It is important to note that the tiers with the 2 lowest win rates have the most and least amount of tanks in those tier respectably. The mean win rate for each tier also indicates a similar trend. Performing an ANOVA test on the variable Type give us a p-value that does appear to indicate that tier does seem to have a statistically significant effect on a tanks win rate.
+Looking at the boxplot, the different tiers appear to be fairly even on win rate with the exception of tier 1 which is significantly lower overall. Tier 8 also appears somewhat smaller but less so than tier 1. It is important to note that the tiers with the 2 lowest win rates have the most and least amount of tanks in those tiers respectably. The mean win rate for each tier also indicates a similar trend. Performing an ANOVA test on the variable Type give us a p-value that does appear to indicate that tier does have a statistically significant effect on a tanks win rate.
 
 ## Tank Nationality 
 
@@ -215,7 +215,7 @@ aov(`Win Rate %` ~ Nation, data = tank_statstot) %>%
   summary()
 ```
 
-Looking at the boxplots, the different nations appear to be fairly even in win rate with the exception of Swedish tanks and Japanese tanks which are noticeably lower overall. It also appears that Germany has the 3 best tanks in the game according to win rate. The means appear to support these observations as well. Performing an ANOVA test on the variable Type give us a p-value that appears to indicate that a tanks nation doesn't seem to have a statistically significant effect on a tanks win rate. This means that while Sweden and Japan do appear to have some differences, they aren't enough to be seen a statistically significant. Interestingly enough, it appears that while players say Russian tanks are overly powerful, the opposite appears to be true with Russian tanks mean win rate being the 3rd lowest out of all the nations. While at the same time, German tanks tend to have a relatively high mean win rate overall.
+Looking at the boxplots, the different nations appear to be fairly even on win rate with the exception of Swedish tanks and Japanese tanks which are noticeably lower overall. It also appears that Germany has the 3 best tanks in the game according to win rate. The means appear to support these observations as well. Performing an ANOVA test on the variable Type give us a p-value that appears to indicate that a tanks nation doesn't seem to have a statistically significant effect on a tanks win rate. This means that while Sweden and Japan do appear to have some differences, they aren't enough to be seen a statistically significant. Interestingly enough, it appears that while players say Russian tanks are overly powerful, the opposite appears to be true with Russian tanks mean win rate being the 3rd lowest out of all the nations. While at the same time, German tanks tend to have a relatively high mean win rate overall.
 
 ## Premium Tanks 
 
@@ -263,7 +263,7 @@ aov(`Win Rate %` ~ Premium, data = tank_statstot) %>%
   summary()
 ```
 
-Looking at the boxplots, there does appear to be a significant difference in the win rate between premium and non-premium tanks. Looking at the means, premium tanks appear to have an almost 2% high win rate than non-premium tanks. Running an ANOVA test on the premium status of the tanks, the p-value is very low indicating that premium status does certainly seem to effect the win rate of a tank.
+Looking at the boxplots, there does appear to be a significant difference in the win rate between premium and non-premium tanks. Looking at the means, premium tanks appear to have an almost 2% higher win rate than non-premium tanks. Running an ANOVA test on the premium status of the tanks, the p-value is very low indicating that premium status does certainly seem to effect the win rate of a tank.
 
 ## More Specific Tank Stats
 
@@ -278,7 +278,7 @@ tank_statstot %>%
   paged_table(options = list(rows.print = 10))
 ```
 
-Interestingly, 6/10 of the most popular tanks are premium tanks which means people had to spend real money to play them. This indicates a clear popularity with their play style. In fact, many of the tanks on this list are particularly unique indicating that players tend to favor tanks that are fun to play. For example, the FV4005 and KV-2 are both notorious in the game as tanks that can kill other tanks in a single shot as a result, people seem to pick those tanks at a higher rate. The overall win rate for most of these tanks isn't particularly high (with the exception of the Bat Chat) which indicates players tend to gravitate towards fun tanks even if those tanks aren't as strong.
+Interestingly, 6/10 of the most popular tanks are premium tanks which means people had to spend real money to play them. This indicates a clear popularity with their play style. In fact, many of the tanks on this list are particularly unique indicating that players tend to favor tanks that are fun to play. For example, the FV4005 and KV-2 are both notorious in the game as tanks that can kill other tanks in a single shot. As a result, people seem to pick those tanks at a higher rate. The overall win rate for most of these tanks isn't particularly high (with the exception of the Bat Chat) which indicates players tend to gravitate towards fun tanks even if those tanks aren't as strong.
 
 ### Top 10 Highest Win Rate Tanks
 
