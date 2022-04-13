@@ -5,7 +5,7 @@ library(scales)
 library(purrr)
 library(stats)
 
-#Writes a function to scrape data from the different servers
+#Writes a function to scrape data from the different servers creating one dataset for server data and one for tank data
 wotscrapewr <- function(x,y){
   tableda <- x %>%
     read_html() %>%
