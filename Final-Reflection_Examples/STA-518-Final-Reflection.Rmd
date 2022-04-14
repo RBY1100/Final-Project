@@ -186,7 +186,9 @@ wotscrapewr <- function(x,y){
     html_nodes("table#stat_veh_all4")  %>% 
     html_table() %>% 
     .[[1]] %>%
-    setNames(c('Name','Tier','Type','Nation',paste('Total Played',y, sep=" "),paste('Wins',y, sep=" "), paste('Win %',y, sep=" "),paste('Unique Players',y, sep=" "), 'Region'))
+    setNames(c('Name','Tier','Type','Nation',paste('Total Played',y, sep=" "),
+    paste('Wins',y, sep=" "), paste('Win %',y, sep=" "),
+    paste('Unique Players',y, sep=" "), 'Region'))
   }
 
 wot_tableeu <- wotscrapewr("https://wot-news.com/stat/server/eu/norm/en/", "EU")
@@ -215,12 +217,14 @@ tank_statstot <- tank_statstot %>%
 
 * Adding up all the server together and calculating the average win rate for each tank globally
 
-```{r eval=FALSE}
+```{r eval=FALSE, tidy.opts=list(width.cutoff=60)}
 
 tank_statstot <- tank_statstot %>%
-  mutate("Total Played" = `Total Played US` + `Total Played EU` + `Total Played SEA` + `Total Played RU`, 
-         "Total Wins" = `Wins US` + `Wins EU` + `Wins SEA` + `Wins RU`, "Total Unique Players" = 
-           `Unique Players US` + `Unique Players EU` + `Unique Players SEA` + `Unique Players RU`, 
+  mutate("Total Played" = `Total Played US` + `Total Played EU` + 
+           `Total Played SEA` + `Total Played RU`, "Total Wins" = `Wins US` + 
+           `Wins EU` + `Wins SEA` + `Wins RU`,
+         "Total Unique Players" = `Unique Players US` + `Unique Players EU` + 
+           `Unique Players SEA` + `Unique Players RU`, 
          "Win Rate %" = (`Total Wins`/`Total Played`)*100)
 ```
 
@@ -286,7 +290,8 @@ dataframe %>%
 ```{r eval=FALSE}
 final <- dataframe %>% 
   pivot_longer(
-    cols = c(Normal_d6, With_GWF_d6, Normal_d8, With_GWF_d8, Normal_d10, With_GWF_d10, Normal_2d6, With_GWF_2d6),
+    cols = c(Normal_d6, With_GWF_d6, Normal_d8, With_GWF_d8, Normal_d10, 
+             With_GWF_d10, Normal_2d6, With_GWF_2d6),
     names_to = "Roll_Type",
     values_to = "Sum_of_Rolls"
   )
@@ -319,8 +324,11 @@ tank_statstot <- tank_statstot %>%
 
 #Get Values for the total World of Tanks player base by adding up all the servers
 tank_statstot <- tank_statstot %>%
-  mutate("Total Played" = `Total Played US` + `Total Played EU` + `Total Played SEA` + `Total Played RU`, "Total Wins" = `Wins US` + `Wins EU` + `Wins SEA` + `Wins RU`, "Total Unique Players" = 
-           `Unique Players US` + `Unique Players EU` + `Unique Players SEA` + `Unique Players RU`, "Win Rate %" = (`Total Wins`/`Total Played`)*100)
+  mutate("Total Played" = `Total Played US` + `Total Played EU` + `Total Played SEA` 
+         + `Total Played RU`, "Total Wins" = `Wins US` + `Wins EU` + `Wins SEA` + `Wins RU`, 
+         "Total Unique Players" = `Unique Players US` + `Unique Players EU` + 
+           `Unique Players SEA` + `Unique Players RU`, 
+         "Win Rate %" = (`Total Wins`/`Total Played`)*100)
 
 #Filter out Repeat Values and Low Observation Values (tanks in beta testing)
 tank_statstot <- tank_statstot[!duplicated(tank_statstot$Name),] %>%
@@ -365,7 +373,8 @@ tank_statstot %>%
 ```{r echo=TRUE}
 tank_statstot %>%
   group_by(Tier) %>%
-  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`), "Total Number of Tier" = length(`Win Rate %`))
+  summarise("Mean Percent by Tank Type" = mean(`Win Rate %`), 
+            "Total Number of Tier" = length(`Win Rate %`))
 ```
 
 ### ANOVA Tests
@@ -448,8 +457,8 @@ normal <- function(x,y){
 Then I wrote a code to reroll any 1's and 2's and take the new roll. I wrote seperate functions for one and two die.
 
 #### 1 Dice
-
-```{r}
+_
+```{r eval = FALSE}
 
 gwf_rolls  <- function(x){
 With_GWF <- 1:1000; With_GWF
@@ -466,11 +475,13 @@ for(l in 1:1000){
 }
 return(With_GWF)
 }
+
 ```
 
 #### 2 Die
+_
+```{r eval = FALSE}
 
-```{r}
 gwf_2dice <- function(x){
 totalroll <- 1:1000; totalroll
 With_GWF_2d <- 1:1000; With_GWF_2d
@@ -491,25 +502,48 @@ for(l in 1:1000){
 }
 return(With_GWF_2d)
 }
+
 ```
 
 With these functions written I ran them for all of the different dice combinations that would be encountered. Putting these all into a dataframe and pivoting it as shown earlier, I was able to create the following box plot and table describing the average damage improvement from taking option 2.
 
-#### Boxplot of Different Dice Combinations
-
 ```{r echo=FALSE}
-dataframe %>%
+final %>%
   ggplot(mapping=aes(x=Sum_of_Rolls, by=Roll_Type, color=Roll_Type)) +
   geom_boxplot()
 ```
 
 #### Table of Improvement from Picking Option 2 
 
-```{r echo=FALSE}
-summarize(final, mean(Normal_d6), mean(With_GWF_d6), mean(Normal_d8), mean(With_GWF_d8), mean(Normal_d10), mean(With_GWF_d10), mean(Normal_2d6), mean(With_GWF_2d6))
+```{r echo=FALSE, tidy.opts=list(width.cutoff=60)}
+
 final %>%
-  summarize(d6improvement=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6),d8improvement=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8),d10improvement=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10), d2d6improvement=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6), d6dmgincrease=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6)*6,d8dmgincrease=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8)*8,d10dmgincrease=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10)*10, d2d6dmgincrease=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6)*12)
+  summarize(d6improvement=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6),d8improvement=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8),d10improvement=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10), d2d6improvement=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6), d6dmgincrease=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6)*6,d8dmgincrease=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8)*8,d10dmgincrease=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10)*10, d2d6dmgincrease=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6)*12) %>% 
+  select(-`d6improvement`, -`d8improvement`, -`d10improvement`, -`d2d6improvement`)
+
 ```
+
+This all appears to indicate that picking option 1 for the flat +2 damage increase is better than taking the second option as all common dice combinations result in a dmage increase of less than 2.
+
+### Using Source Documentation to Troubleshoot and Extend R Programs
+
+I had to use numerous sources both in R and using outside sources to accomplish tasks.
+
+Stack Overflow was easily the most helpful for general advice on issues and simple syntax errors: https://stackoverflow.com/
+
+For web scraping, I found a fantastic youtube series which really helped me learn to web scrape: https://www.youtube.com/watch?v=v8Yh_4oE-Fs&list=PLr5uaPu5L7xLEclrT0-2TWAz5FTkfdUiW
+
+Finally, another helpful source for setting up my website was this web article: https://lisalendway.netlify.app/posts/2020-12-09-buildingdistill/
+
+All of this, allowed me to improve my skills in web scraping and web design which really allowed me to enhance my project and any future projects I will do in R.
+
+### Using Source Documentation to Troubleshoot and Extend R Programs
+
+I generally make well organized R code that is easy to read and has comments clearly explaining what each section of code does. On top of this, all edits are available through looking at the github history. The following is the github files for both the dice project and World of Tanks project for you to see how it is generally organized.
+
+World of Tanks: https://github.com/Robert-Bilyk/Final-Project/blob/main/FinalProject_Code.R
+
+Dice:
 
 ## Question 4: Grade I Think I Deserve
 
