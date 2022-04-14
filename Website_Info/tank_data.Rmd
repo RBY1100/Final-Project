@@ -123,7 +123,7 @@ Simply looking at the comparative boxplots and observing the mean win rate for e
 
 ## Tank Tier 
 
-World of Tanks uses a matchmaker system to create balanced teams every match. Based on this, they have a built in tier system with each tank attached to a certain tier based on how powerful that tank is. In this case, tier 1 includes the weakest tanks in the game while tier 10 includes the most powerful tanks. World of Tanks has a built in matchmaker that will make sure there are an equal number of tanks from each tier on each team. Different tiers can be matched up with tank +/- 2 tiers from their own. So for example, a tier 5 tank oculd be matched with tier 3, 4, 5, 6, and 7 tanks although there will always be an equal number of tier 5's on each team. Are there any differences between the win rates of different tiers? 
+World of Tanks uses a matchmaker system to create balanced teams every match. Based on this, they have a built in tier system with each tank attached to a certain tier based on how powerful that tank is. In this case, tier 1 includes the weakest tanks in the game while tier 10 includes the most powerful tanks. World of Tanks has a built in matchmaker that will make sure there are an equal number of tanks from each tier on each team. Different tiers can be matched up with tank +/- 2 tiers from their own. So for example, a tier 5 tank could be matched with tier 3, 4, 5, 6, and 7 tanks although there will always be an equal number of tier 5's on each team. Are there any differences between the win rates of different tiers? 
 
 ### Current Percentage Breakdown for Tank Tier
 
@@ -215,7 +215,7 @@ aov(`Win Rate %` ~ Nation, data = tank_statstot) %>%
   summary()
 ```
 
-Looking at the boxplots, the different nations appear to be fairly even on win rate with the exception of Swedish tanks and Japanese tanks which are noticeably lower overall. It also appears that Germany has the 3 best tanks in the game according to win rate. The means appear to support these observations as well. Performing an ANOVA test on the variable Type give us a p-value that appears to indicate that a tanks nation doesn't seem to have a statistically significant effect on a tanks win rate. This means that while Sweden and Japan do appear to have some differences, they aren't enough to be seen a statistically significant. Interestingly enough, it appears that while players say Russian tanks are overly powerful, the opposite appears to be true with Russian tanks mean win rate being the 3rd lowest out of all the nations. While at the same time, German tanks tend to have a relatively high mean win rate overall.
+Looking at the boxplots, the different nations appear to be fairly even on win rate with the exception of Swedish tanks and Japanese tanks which are noticeably lower overall. It also appears that Germany has the 3 best tanks in the game according to win rate. The means appear to support these observations as well. Performing an ANOVA test on the variable Type give us a p-value that appears to indicate that a tank's nationality doesn't seem to have a statistically significant effect on a tank's win rate. This means that while Sweden and Japan do appear to have some differences, they aren't enough to be seen a statistically significant. Interestingly enough, it appears that while players say Russian tanks are too powerful, the opposite appears to be true with Russian tank's mean win rate being the 3rd lowest out of all the nations. While at the same time, German tanks tend to have a relatively high mean win rate overall.
 
 ## Premium Tanks 
 
@@ -293,7 +293,7 @@ An astounding 10/10 of the the highest win rate tanks are premium tanks. However
 
 ## Checking the Newest Tanks Releases
 
-Within the last 3 months, Wargaming has released a new line of tanks called "Yoh" tanks. These tanks are all US heavy tanks with a unique play style compared to other heavy tanks. There was a Tier 6, 7, 8, 9, and 10 standard tank released as well as 1 tier 8 premium tank. These tanks have been in the game for a very short time so there have not been any balance changes done to the tanks. However, is there any evidence that these tanks are performing too well or not well enough?
+Within the last 3 months, Wargaming has released a new line of tanks called "Yoh" tanks. These tanks are all US heavy tanks with a unique play style compared to other heavy tanks. There was a Tier 6, 7, 8, 9, and 10 standard tank released as well as 1 tier 8 premium tank. These tanks have been in the game for a very short time so there have not been any balance changes done to them. However, is there any evidence that these tanks are performing too well or not well enough?
 
 ![](yohtank.jpg)
 
@@ -340,4 +340,4 @@ aov(`Win Rate %` ~ `Yoh Tank`, data = tank_statstot) %>%
   summary()
 ```
 
-Using a boxplot and comparing means comparing Yoh tanks and non-Yoh tanks, there doesn't appear to be any major difference between these two groups. An ANVOA test also supports this conclusion with a p-value well above any significance level. Overall, it appears that Wargaming did do a decent job keeping the Yoh tanks fairly balanced. Although they may perhaps want to look at the tier 9 Yoh tank.
+Using a boxplot and comparing the means of the Yoh tanks and non-Yoh tanks, there doesn't appear to be any major difference between these two groups. An ANVOA test also supports this conclusion with a p-value well above any significance level. Overall, it appears that Wargaming did do a decent job keeping the Yoh tanks fairly balanced. Although they may perhaps want to look at the tier 9 Yoh tank.

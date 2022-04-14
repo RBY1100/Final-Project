@@ -11,7 +11,7 @@ Based on the data collected, there are certainly some conclusions that we can dr
 
 ## Region Conclusions
 
-Data on the different World of Tanks servers helped showcase where the World of Tanks playerbase primarily resides as well as different preferences from the players on different servers.
+Data on the different World of Tanks servers helped showcase where the World of Tanks player base primarily resides as well as different preferences from the players on different servers.
 
 ### Server Share
 
@@ -47,7 +47,7 @@ It appears that the most popular nations are the ones with the most tanks availa
 
 ### Tank Premium Status and Win Rates
 
-Overall, about 1/3 of all games played are played with a premium tank. This indicates that tanks purchasable with real currency are now a substantial part of the game. It is important to note that Wargaming does hold events that give players free premium tanks so that doesn't necessarily mean that these tanks were all purchased with real currency. However, it does appear that using a premium tank does provide a noticeable increase to average win rate. There is clear evidence shown in the data that premium tanks do appear to be more powerful/impactful to a game. This makes sense as Wargaming is incentivized to make their premium tanks stronger than their non-premium counterparts. No one will want to purchase a tank that is weaker than a tank they can get for free. In order to ensure people continue to spend money on new tanks, Wargaming has an incentive to release premium tanks more powerful than their free counterparts. As long as players don't get upset with the balance of the game, this trend will continue as it is likely the more profitable option for Wargaming.
+Overall, about 1/3 of all games played are played with a premium tank. This indicates that tanks that can be purchased with real currency are now a substantial part of the game. It is important to note that Wargaming does hold events that give players free premium tanks so that doesn't necessarily mean that these tanks were all purchased with real currency. However, it does appear that using a premium tank does provide a noticeable increase to average win rate. There is clear evidence shown in the data that premium tanks do appear to be more powerful/impactful to a game. This makes sense as Wargaming is incentivized to make their premium tanks stronger than their non-premium counterparts. No one will want to purchase a tank that is weaker than a tank they can get for free. In order to ensure people continue to spend money on new tanks, Wargaming has an incentive to release premium tanks more powerful than their free counterparts. As long as players don't get upset with the balance of the game, this trend will continue as it is likely the more profitable option for Wargaming.
 
 ### The Most Popular Tanks
 
@@ -59,12 +59,12 @@ Surprisingly, all of the top 10 highest win rate tanks are all premium tanks. Ho
 
 ## The Power of the New Tanks
 
-Examining whether the newest tanks Wargmaing has released are balanced compared to the other tanks already in the game.
+Examining whether the newest tanks Wargaming has released are balanced compared to the other tanks already in the game.
 
 ### The Yoh Tanks
 
-In general, it appears that the Yoh tanks are relatively balanced compared to the other tanks in the game. While the tier 9 tanks appears to be somewhat weaker compared to other tanks, the Yoh line as a whole is not significantly more or less powerful. This indicates that Wargaming has done a good job testing these tanks and very little, if any, changes will need to be made to these tanks in the future.
+In general, it appears that the Yoh tanks are relatively balanced compared to the other tanks in the game. While the tier 9 tank appears to be somewhat weaker compared to other tanks, the Yoh line as a whole is not significantly more or less powerful. This indicates that Wargaming has done a good job testing these tanks and very little, if any, changes will need to be made to them in the future.
 
 ## Final Thoughts
 
-In conclusion, this data has provided some valuable insights on the makeup of the player base as well as the different aspects that might impact a tanks overall win rate. I hope that this information would prove useful to both players of the game who can use this information to determine what kind of win rate they might expect depending on what they play and outsiders who I've now given a glimpse into a game that I have played many hours of over the years. 
+In conclusion, this data has provided some valuable insights on the makeup of the player base as well as the different aspects that might impact a tank's overall win rate. I hope that this information would prove useful to both players of the game who can use this information to determine what kind of win rate they might expect depending on what they play and outsiders who I've now given a glimpse into a game that I have played many hours of over the years. 

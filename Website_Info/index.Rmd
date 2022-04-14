@@ -18,7 +18,7 @@ library("vembedr")
 
 ## Questions that will be answered
 
-This analysis will be primarily focused on the individual win rates for each tank although other statistics may be considered and mentioned. The data scraped will provide a tanks nationality, class, tier, and if they are a premium tank. On top of this, the data provides win rates and player counts for each individual server. Using this data, this project will seek to:
+This analysis will be primarily focused on the individual win rates for each tank although other statistics may be considered and mentioned. The data scraped will provide a tank's nationality, class, tier, and if they are a premium tank. On top of this, the data provides win rates and player counts for each individual server. Using this data, this project will seek to:
 
 * Observe and determine differences in player counts and win rates by server
 * Determine differences in win rates based on different characteristics (tier/type/nation)
@@ -30,7 +30,7 @@ This analysis will be primarily focused on the individual win rates for each tan
 
 ### World of Tanks Gameplay
 
-World of Tanks is a massively multiplayer online game created by Wargaming. Released August 12, 2010 it continues to support relatively strong player counts. In World of Tanks, players take control of a single armored tank of their choice, and is placed into a battle on a random map. The player has control over the vehicle's movement, firing, and can communicate with allied players and all the other players through typed or voice chat. A simple random match is won either by destroying all vehicles on the opposing team or capturing the opposing team's base by staying in it for long enough without being damaged by another tank. 
+World of Tanks is a massively multiplayer online (MMO) game created by Wargaming. Released August 12, 2010 it continues to support relatively strong player counts. In World of Tanks, players take control of a single armored tank of their choice, and is placed into a battle on a random map. The player has control over the vehicle's movement, firing, and can communicate with allied players and all the other players through typed or voice chat. A simple random match is won either by destroying all vehicles on the opposing team or capturing the opposing team's base by staying in it for long enough without being damaged by another tank. 
 
 ```{r}
 embed_url("https://www.youtube.com/watch?v=68orlULGqIA")
@@ -44,7 +44,7 @@ In World of Tanks, vehicles are modeled to closely resemble their counterparts i
 
 ### About the Data
 
-This data was scraped from the Wot-News website. This website pulls data from Wargamings servers in order to provide data on server activity and tanks statistics. This is updated weekly and this project will take data from the last 60 days. This data can all be viewed on the Wot News website at: https://wot-news.com/.
+This data was scraped from the Wot-News website. This website pulls data from Wargamings servers in order to provide data on server activity and tank statistics. This is updated weekly and this project will take data from the last 60 days. This data can all be viewed on the Wot News website at: https://wot-news.com/.
 Some data that wasn't included on Wot News such as whether a tank was a premium tank or not was manually added.
 
 

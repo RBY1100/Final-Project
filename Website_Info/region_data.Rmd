@@ -104,7 +104,7 @@ tank_statsreg %>%
   paged_table()
 ```
 
-In general, Russia and Eastern Europe are where the vast majority of players reside. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. The SEA server also has a relatively small portion of the player base. Credit where credit is due to Wargaming considering they have severed all ties with Russia over the war in Ukraine considering the majority of their business appears to be reliant on Russian and Eastern European players.
+In general, Russia and Eastern Europe are where the vast majority of players reside. This is followed very distantly by the EU. Surprisingly, the United States makes up a very small portion of the World of Tanks player base even though it is known to have a large video game market in general. The SEA server also has a relatively small portion of the player base. To give credit where credit is due, Wargaming has recently severed all ties with Russia over the war in Ukraine which is significant considering the majority of their business appears to be reliant on Russian and Eastern Europian players.
 
 ## Server Effect on Win Rate
 
