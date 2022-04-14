@@ -168,16 +168,16 @@ I worked alone on this project.
 
 ## Question 3: Demonstration of Skills Learned
 
-To demonstrate what I have learned, I will mainly reference 2 projects I worked on this semester. From these projects I will pull specific examples of the skills I employ to answer the questions the projects pose.
+To demonstrate what I have learned, I will mainly reference 2 projects I worked on this semester. From these projects I will pull specific examples of the skills I employed to answer the questions the projects posed.
 
-* The first project is the final project that I submitted. In that project I scraped data from the game World of Tanks for each individual tank and how well each individual tank performs. This was all done to see if there were any noticeable differences between the different playable nations, region the game is played on, tank tiers, and lastly the effect of premium tanks on the game.
-* The second project was done to answer a question about dice rolling and what strategy is superior. In a game called dungeons and dragons there are two options you can choose. When you hit an enemy, you will roll a specific die to determine how much damage you deal. In the first option you can choose to simply take a flat +2 added to any damage roll. The second option, you can reroll any die that is a 2 or 1 but you have to take the second roll. To determine which of these was better I created a simulation for all of the different die combinations and simulated both options to see what choice appears to be better. I ran 1000 dice added them up and then repeated that 1000 times to get an adequtely sized dataset.
+* The first project is the final project that I submitted. In that project I scraped data from the game World of Tanks for each individual tank and how well each individual tank performs. This was all done to see if there were any noticeable differences between the different playable nations, server the game is played on, tank tiers, and lastly the effect of premium tanks on the game.
+* The second project was done to answer a question about dice rolling and what strategy is superior. In a game called dungeons and dragons there are two options you can choose. When you hit an enemy, you will roll a specific die to determine how much damage you deal. In the first option you can choose to simply take a flat +2 added to any damage roll. The second option, you can re roll any die that is a 2 or 1 but you have to take the second roll. To determine which of these was better I created a simulation for all of the different die combinations and simulated both options to see what choice appears to be better. I ran 1000 dice added them up and then repeated that 1000 times to get an adequately sized dataset.
 
 ### Import, manage, and clean data:
 
-For the World of Tanks project, the data I acquired was pulled from the Wot-News website. To do so, I wrote a function to pull the data. There were 4 different servers that I needed data from so I ran the function 4 times and then compiled them into a list. Finally, I used rbind to stack the tables on top of each other into a single data set. Note that I also imported "other_info" which included premium tank status as I had to manually pull that data as there wasn't any website that I could scrape this data from.
+For the World of Tanks project, the data I acquired was pulled from the Wot-News website. To do so, I wrote a function to pull the data. There were 4 different servers that I needed data from so I ran the function 4 times and then compiled them into a list. Finally, I used reduce() to combine the data horizontally into a single data set. Note that I also imported "other_info" which included premium tank status as I had to manually pull that data as there wasn't any website that I could scrape this data from.
 
-I also created a second data set that's grouped on the specific tanks rather than the servers using the code below. This time, I combined them horizontally using the reduce() function. The code used here was almost identical to the server data set.
+I also created a second data set that's grouped on the specific tanks rather than the servers using the code below. This time, I combined them vertically using the rbind() function and added a new variable distiguish what server it came from. The code used here was almost identical to the server data set.
 
 ```{r eval=FALSE}
 wotscrapewr <- function(x,y){
@@ -205,7 +205,7 @@ tank_statstot <- wot_list %>% reduce(inner_join, by="Name")
 
 After creating these data sets, I did a lot of work to make them presentable for graphs and tables. This includes:
 
-* Removing Unnessesary Variables and Renaming Remaining ones
+#### Removing Unnessesary Variables and Renaming Remaining ones
 
 ```{r eval=FALSE}
 
@@ -215,7 +215,7 @@ tank_statstot <- tank_statstot %>%
 
 ```
 
-* Adding up all the server together and calculating the average win rate for each tank globally
+#### Adding up all the servers together and calculating the average win rate for each tank globally
 
 ```{r eval=FALSE, tidy.opts=list(width.cutoff=60)}
 
@@ -228,7 +228,7 @@ tank_statstot <- tank_statstot %>%
          "Win Rate %" = (`Total Wins`/`Total Played`)*100)
 ```
 
-* Removing any duplicated variables and removing all tanks with less than 6,000 total battles
+#### Removing any duplicated variables and removing all tanks with less than 6,000 total battles
 
 ```{r eval=FALSE}
 
@@ -236,7 +236,7 @@ tank_statstot <- tank_statstot[!duplicated(tank_statstot$Name),] %>%
   filter(`Total Played` > 6000)
 ```
 
-* Changing variables to character variables and reordering them for better visuals in the future
+#### Changing variables to character variables and reordering them for better visuals in the future
 
 ```{r eval=FALSE}
 
@@ -245,7 +245,7 @@ tank_statstot$`Tier` <- as.character(tank_statstot$`Tier`) %>%
 tank_statstot$`Premium` <- as.character(tank_statstot$`Premium`)
 ```
 
-* Renaming the responses for certain categories for better visuals 
+#### Renaming the responses for certain categories for better visuals 
 
 ```{r eval=FALSE}
 
@@ -279,7 +279,7 @@ tank_statstot
 tank_statsreg 
 ```
 
-Lastly, using the dice project functions I created (will be shown later in this reflection), I needed up with this data set which wasn't very good for visuals so I pivoted it.
+Lastly, using the dice project functions I created (will be shown later in this reflection), I ended up with this data set which wasn't very good for visuals so I pivoted it.
 
 ```{r echo=FALSE}
 dataframe %>%
@@ -454,7 +454,7 @@ normal <- function(x,y){
 }
 ```
 
-Then I wrote a code to reroll any 1's and 2's and take the new roll. I wrote seperate functions for one and two die.
+Then I wrote a separate function to re roll any 1's and 2's and take the new roll. I wrote separate functions for one and two die.
 
 #### 1 Dice
 _
@@ -505,7 +505,7 @@ return(With_GWF_2d)
 
 ```
 
-With these functions written I ran them for all of the different dice combinations that would be encountered. Putting these all into a dataframe and pivoting it as shown earlier, I was able to create the following box plot and table describing the average damage improvement from taking option 2.
+With these functions written I ran them for all of the different dice combinations that would be encountered. Putting these all into a data frame and pivoting it as shown earlier, I was able to create the following box plot and table describing the average damage improvement from taking option 2.
 
 ```{r echo=FALSE}
 final %>%
@@ -551,5 +551,5 @@ I would overall give myself an A. I am very confident in all of the topics we co
 
 ## Question 5: Thoughts or Reflections
 
-My personal preference is to have more structure to classes and actually having grades but this class was certainly effective in teaching me the necessary skills needed to code in R. I don’t have any major criticisms with how the class is run.
+My personal preference is to have more structure to classes and actually having grades but this class was certainly effective in teaching me the necessary skills needed to code in R. I don’t have any major criticisms with how the class is run. I did have a lot of fun learning to use R and I really valued the time and effort I put into this class.
 
