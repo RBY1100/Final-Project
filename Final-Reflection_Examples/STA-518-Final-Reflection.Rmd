@@ -543,7 +543,7 @@ I generally make well organized R code that is easy to read and has comments cle
 
 World of Tanks: https://github.com/Robert-Bilyk/Final-Project/blob/main/FinalProject_Code.R
 
-Dice:
+Dice: https://github.com/Robert-Bilyk/Final-Project/blob/main/Final-Reflection_Examples/dicetest.R
 
 ## Question 4: Grade I Think I Deserve
 
