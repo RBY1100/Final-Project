@@ -205,7 +205,7 @@ tank_statstot <- wot_list %>% reduce(inner_join, by="Name")
 
 After creating these data sets, I did a lot of work to make them presentable for graphs and tables. This includes:
 
-#### Removing Unnessesary Variables and Renaming Remaining ones
+* Removing Unnessesary Variables and Renaming Remaining ones
 
 ```{r eval=FALSE}
 
@@ -215,7 +215,7 @@ tank_statstot <- tank_statstot %>%
 
 ```
 
-#### Adding up all the servers together and calculating the average win rate for each tank globally
+* Adding up all the servers together and calculating the average win rate for each tank globally
 
 ```{r eval=FALSE, tidy.opts=list(width.cutoff=60)}
 
@@ -228,7 +228,7 @@ tank_statstot <- tank_statstot %>%
          "Win Rate %" = (`Total Wins`/`Total Played`)*100)
 ```
 
-#### Removing any duplicated variables and removing all tanks with less than 6,000 total battles
+* Removing any duplicated variables and removing all tanks with less than 6,000 total battles
 
 ```{r eval=FALSE}
 
@@ -236,7 +236,7 @@ tank_statstot <- tank_statstot[!duplicated(tank_statstot$Name),] %>%
   filter(`Total Played` > 6000)
 ```
 
-#### Changing variables to character variables and reordering them for better visuals in the future
+* Changing variables to character variables and reordering them for better visuals in the future
 
 ```{r eval=FALSE}
 
@@ -245,7 +245,7 @@ tank_statstot$`Tier` <- as.character(tank_statstot$`Tier`) %>%
 tank_statstot$`Premium` <- as.character(tank_statstot$`Premium`)
 ```
 
-#### Renaming the responses for certain categories for better visuals 
+* Renaming the responses for certain categories for better visuals 
 
 ```{r eval=FALSE}
 
@@ -551,5 +551,5 @@ I would overall give myself an A. I am very confident in all of the topics we co
 
 ## Question 5: Thoughts or Reflections
 
-My personal preference is to have more structure to classes and actually having grades but this class was certainly effective in teaching me the necessary skills needed to code in R. I don’t have any major criticisms with how the class is run. I did have a lot of fun learning to use R and I really valued the time and effort I put into this class.
+My personal preference is to have more structure to classes and actually having grades but this class was certainly effective in teaching me the necessary skills needed to code in R. I don’t have any major criticisms with how the class is run. I did have a lot of fun learning to use R and I really valued the time and effort I put into the class.
 
