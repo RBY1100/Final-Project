@@ -537,7 +537,7 @@ Finally, another helpful source for setting up my website was this web article: 
 
 All of this, allowed me to improve my skills in web scraping and web design which really allowed me to enhance my project and any future projects I will do in R.
 
-### Using Source Documentation to Troubleshoot and Extend R Programs
+### Write Clear, Efficient and Well Documented R Programs
 
 I generally make well organized R code that is easy to read and has comments clearly explaining what each section of code does. On top of this, all edits are available through looking at the github history. The following is the github files for both the dice project and World of Tanks project for you to see how it is generally organized.
 
