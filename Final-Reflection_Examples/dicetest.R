@@ -3,8 +3,7 @@ library(random)
 library(tidyverse)
 library(purrr)
 
-#For a normal roll with one dice
-
+#Function For a normal roll with one dice
 normal <- function(x,y){
   Normal_2d <- 1:1000; Normal_2d
   for(l in 1:1000){
@@ -20,8 +19,8 @@ normal <- function(x,y){
   return(Normal_2d)
 }
 
-#For rolls with with the GWF perk with one dice
 
+#Function For rolls with with the GWF perk with one dice
 gwf_rolls  <- function(x){
 With_GWF <- 1:1000; With_GWF
 for(l in 1:1000){
@@ -38,8 +37,8 @@ for(l in 1:1000){
 return(With_GWF)
 }
 
-#For 2 dice with GWF rules:
 
+#Function For 2 dice with GWF rules:
 gwf_2dice <- function(x){
 totalroll <- 1:1000; totalroll
 With_GWF_2d <- 1:1000; With_GWF_2d
@@ -61,6 +60,8 @@ for(l in 1:1000){
 return(With_GWF_2d)
 }
 
+
+#Running Function for the Different Types and Number of Dice Rolls
 Normal_d6 <- normal(6,1)
 With_GWF_d6 <- gwf_rolls(6)
 Normal_d8 <-normal(8,1)
@@ -70,7 +71,8 @@ With_GWF_d10 <-gwf_rolls(10)
 Normal_2d6 <- normal(6,2)
 With_GWF_2d6 <- gwf_2dice(6)
 
-#Arrange and Plot
+
+#Create and Pivot a Dataframe
 dataframe <- data.frame(Normal_d6, With_GWF_d6, Normal_d8, With_GWF_d8, Normal_d10, With_GWF_d10, Normal_2d6, With_GWF_2d6)
 dataframe <- dataframe %>% 
   pivot_longer(
@@ -78,12 +80,22 @@ dataframe <- dataframe %>%
     names_to = "Roll_Type",
     values_to = "Sum_of_Rolls"
   )
+
+
+#Add Name to the Columns to Showcase the Dice
 dataframe$Roll_Type <- factor(dataframe$Roll_Type , levels=c("Normal_d6", "With_GWF_d6", "Normal_d8", "With_GWF_d8", "Normal_d10", "With_GWF_d10", "Normal_2d6", "With_GWF_2d6"))
 
+
+#Create Boxplot for the different Dice Rolls and Choices
 dataframe %>%
   ggplot(mapping=aes(x=Sum_of_Rolls, by=Roll_Type, color=Roll_Type)) +
   geom_boxplot()
 
+
+#Table Showing Means of the Different Dice Combinations and Choice
 summarize(dataframe, mean(Normal_d6), mean(With_GWF_d6), mean(Normal_d8), mean(With_GWF_d8), mean(Normal_d10), mean(With_GWF_d10), mean(Normal_2d6), mean(With_GWF_2d6))
+
+
+#Table Showing Improvement
 dataframe %>%
   summarize(d6improvement=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6),d8improvement=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8),d10improvement=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10), d2d6improvement=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6), d6dmgincrease=(mean(With_GWF_d6)-mean(Normal_d6))/mean(With_GWF_d6)*6,d8dmgincrease=(mean(With_GWF_d8)-mean(Normal_d8))/mean(With_GWF_d8)*8,d10dmgincrease=(mean(With_GWF_d10)-mean(Normal_d10))/mean(With_GWF_d10)*10, d2d6dmgincrease=(mean(With_GWF_2d6)-mean(Normal_2d6))/mean(With_GWF_2d6)*12)
